@@ -3,7 +3,16 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
+import Layout from "./components/Layout";
+import Dashboard from "./pages/Dashboard";
+import MyCourses from "./pages/MyCourses";
+import Courses from "./pages/Courses";
+import TestSeries from "./pages/TestSeries";
+import MockTest from "./pages/MockTest";
+import LiveTest from "./pages/LiveTest";
+import Profile from "./pages/Profile";
+import ChangePassword from "./pages/ChangePassword";
+import Orders from "./pages/Orders";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -14,11 +23,21 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/my-courses" element={<MyCourses />} />
+            <Route path="/courses" element={<Courses />} />
+            <Route path="/test-series" element={<TestSeries />} />
+            <Route path="/mock-test" element={<MockTest />} />
+            <Route path="/live-test" element={<LiveTest />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/change-password" element={<ChangePassword />} />
+            <Route path="/orders" element={<Orders />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Layout>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
