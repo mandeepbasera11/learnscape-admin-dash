@@ -100,7 +100,7 @@ export default function Dashboard() {
       <div className="flex flex-col md:flex-row md:items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-foreground mb-2">
-            Welcome back, Alka! 👋
+            Welcome back, Alex! 👋
           </h1>
           <p className="text-muted-foreground">
             Ready to continue your learning journey? Here's what's happening today.
