@@ -18,21 +18,21 @@
     --popover: 0 0% 100%;
     --popover-foreground: 215 25% 15%;
 
-    /* Primary - Modern Blue */
-    --primary: 214 84% 56%;
+    /* Primary - Vibrant Purple */
+    --primary: 258 90% 66%;
     --primary-foreground: 0 0% 100%;
-    --primary-hover: 214 84% 50%;
+    --primary-hover: 258 90% 60%;
 
-    /* Secondary - Soft Gray */
-    --secondary: 220 14% 96%;
-    --secondary-foreground: 215 25% 26%;
+    /* Secondary - Electric Blue */
+    --secondary: 200 100% 70%;
+    --secondary-foreground: 0 0% 100%;
 
-    /* Muted - Light backgrounds */
-    --muted: 220 14% 96%;
-    --muted-foreground: 215 16% 47%;
+    /* Muted - Soft Purple backgrounds */
+    --muted: 258 30% 96%;
+    --muted-foreground: 258 20% 50%;
 
-    /* Accent - Teal for highlights */
-    --accent: 173 80% 40%;
+    /* Accent - Vibrant Orange */
+    --accent: 25 95% 60%;
     --accent-foreground: 0 0% 100%;
 
     /* Destructive - Soft red */
@@ -50,8 +50,8 @@
     --surface-active: 220 14% 96%;
     
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(214 84% 56%), hsl(173 80% 40%));
-    --gradient-surface: linear-gradient(180deg, hsl(0 0% 100%), hsl(220 14% 98%));
+    --gradient-primary: linear-gradient(135deg, hsl(258 90% 66%), hsl(25 95% 60%));
+    --gradient-surface: linear-gradient(180deg, hsl(258 30% 98%), hsl(258 30% 96%));
     
     /* Shadows */
     --shadow-soft: 0 1px 3px 0 hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
