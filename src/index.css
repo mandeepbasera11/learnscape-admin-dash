@@ -9,7 +9,7 @@
 @layer base {
   :root {
     /* Light theme colors - Modern student portal palette */
-    --background: 0 0% 99%;
+    --background: 150 30% 97%;
     --foreground: 215 25% 15%;
 
     --card: 0 0% 100%;
