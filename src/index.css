@@ -10,13 +10,13 @@
   :root {
     /* Light theme colors - Watercolor palette */
     --background: 195 30% 96%;
-    --foreground: 200 25% 15%;
+    --foreground: 210 85% 25%;
 
     --card: 0 0% 100%;
-    --card-foreground: 200 25% 15%;
+    --card-foreground: 210 85% 25%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 200 25% 15%;
+    --popover-foreground: 210 85% 25%;
 
     /* Primary - Soft Turquoise */
     --primary: 185 84% 70%;
