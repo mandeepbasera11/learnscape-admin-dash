@@ -8,31 +8,31 @@
 
 @layer base {
   :root {
-    /* Light theme colors - Modern student portal palette */
-    --background: 150 30% 97%;
-    --foreground: 215 25% 15%;
+    /* Light theme colors - Watercolor palette */
+    --background: 195 30% 96%;
+    --foreground: 200 25% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 215 25% 15%;
+    --card-foreground: 200 25% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 15%;
+    --popover-foreground: 200 25% 15%;
 
-    /* Primary - Ocean Blue */
-    --primary: 210 100% 56%;
+    /* Primary - Soft Turquoise */
+    --primary: 185 84% 70%;
     --primary-foreground: 0 0% 100%;
-    --primary-hover: 210 100% 50%;
+    --primary-hover: 185 84% 64%;
 
-    /* Secondary - Fresh Mint */
-    --secondary: 160 84% 60%;
+    /* Secondary - Ocean Blue */
+    --secondary: 200 75% 65%;
     --secondary-foreground: 0 0% 100%;
 
-    /* Muted - Soft Blue backgrounds */
-    --muted: 210 30% 96%;
-    --muted-foreground: 210 20% 50%;
+    /* Muted - Soft Aqua backgrounds */
+    --muted: 190 30% 94%;
+    --muted-foreground: 190 20% 50%;
 
-    /* Accent - Mint Green */
-    --accent: 165 82% 51%;
+    /* Accent - Teal */
+    --accent: 180 65% 55%;
     --accent-foreground: 0 0% 100%;
 
     /* Destructive - Soft red */
@@ -50,8 +50,8 @@
     --surface-active: 220 14% 96%;
     
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(210 100% 56%), hsl(165 82% 51%));
-    --gradient-surface: linear-gradient(180deg, hsl(210 30% 98%), hsl(210 30% 96%));
+    --gradient-primary: linear-gradient(135deg, hsl(185 84% 70%), hsl(180 65% 55%));
+    --gradient-surface: linear-gradient(180deg, hsl(190 30% 98%), hsl(190 30% 96%));
     
     /* Shadows */
     --shadow-soft: 0 1px 3px 0 hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
