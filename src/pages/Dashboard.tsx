@@ -13,34 +13,88 @@ import {
   FileText,
   Users
 } from "lucide-react"
+import { useState, useEffect } from "react"
+import { supabase } from "@/integrations/supabase/client"
+import { useAuth } from "@/hooks/useAuth"
 
 export default function Dashboard() {
-  const stats = [
+  const { user } = useAuth();
+  const [stats, setStats] = useState({
+    coursesEnrolled: 0,
+    testsCompleted: 0,
+    averageScore: 0,
+    certificates: 0
+  });
+
+  useEffect(() => {
+    if (user) {
+      fetchUserStats();
+    }
+  }, [user]);
+
+  const fetchUserStats = async () => {
+    try {
+      // Fetch enrolled courses count
+      const { count: coursesCount } = await supabase
+        .from('course_enrollments')
+        .select('*', { count: 'exact', head: true })
+        .eq('user_id', user?.id);
+
+      // Fetch test attempts count
+      const { count: testsCount } = await supabase
+        .from('test_attempts')
+        .select('*', { count: 'exact', head: true })
+        .eq('user_id', user?.id)
+        .eq('completed', true);
+
+      // Fetch average score
+      const { data: attempts } = await supabase
+        .from('test_attempts')
+        .select('score')
+        .eq('user_id', user?.id)
+        .eq('completed', true);
+
+      const avgScore = attempts && attempts.length > 0 
+        ? attempts.reduce((sum, attempt) => sum + (attempt.score || 0), 0) / attempts.length
+        : 0;
+
+      setStats({
+        coursesEnrolled: coursesCount || 0,
+        testsCompleted: testsCount || 0,
+        averageScore: Math.round(avgScore),
+        certificates: 0 // TODO: Implement certificates
+      });
+    } catch (error) {
+      console.error('Error fetching stats:', error);
+    }
+  };
+
+  const statsData = [
     {
       title: "Courses Enrolled",
-      value: "12",
-      change: "+2 this month",
+      value: stats.coursesEnrolled.toString(),
+      change: "Start your AIIMS prep",
       icon: BookOpen,
       color: "text-blue-600"
     },
     {
       title: "Tests Completed",
-      value: "45",
-      change: "+8 this week",
+      value: stats.testsCompleted.toString(),
+      change: "Keep practicing",
       icon: Timer,
       color: "text-green-600"
     },
     {
       title: "Average Score",
-      value: "87%",
-      change: "+5% improvement",
+      value: `${stats.averageScore}%`,
+      change: "Improve daily",
       icon: TrendingUp,
       color: "text-purple-600"
     },
     {
       title: "Certificates",
-      value: "3",
-      change: "1 pending",
+      value: stats.certificates.toString(),
+      change: "Complete courses",
       icon: Award,
       color: "text-orange-600"
     }
@@ -100,7 +154,7 @@ export default function Dashboard() {
       <div className="flex flex-col md:flex-row md:items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-foreground mb-2">
-            Welcome back, Alex! 👋
+            Welcome back, {user?.user_metadata?.full_name?.split(' ')[0] || 'Student'}! 👋
           </h1>
           <p className="text-muted-foreground">
             Ready to continue your learning journey? Here's what's happening today.
@@ -116,7 +170,7 @@ export default function Dashboard() {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((stat, index) => (
+        {statsData.map((stat, index) => (
           <Card key={index} className="card-soft card-hover p-6">
             <div className="flex items-center justify-between">
               <div>

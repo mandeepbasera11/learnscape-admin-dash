@@ -2,46 +2,49 @@ import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { FileText, Clock, Trophy, Users, Calendar } from "lucide-react"
+import { useState, useEffect } from "react"
+import { supabase } from "@/integrations/supabase/client"
+import { useToast } from "@/hooks/use-toast"
+
+interface TestSeries {
+  id: string;
+  title: string;
+  subject: string;
+  description: string;
+  total_tests: number;
+  difficulty: string;
+  duration_minutes: number;
+}
 
 export default function TestSeries() {
-  const testSeries = [
-    {
-      id: 1,
-      title: "React Development Mastery",
-      subject: "Frontend Development",
-      totalTests: 12,
-      completedTests: 8,
-      duration: "45 mins per test",
-      difficulty: "Intermediate",
-      participants: 1234,
-      nextTest: "React Hooks Advanced",
-      deadline: "Dec 20, 2024"
-    },
-    {
-      id: 2,
-      title: "Data Structures Complete Series",
-      subject: "Computer Science",
-      totalTests: 15,
-      completedTests: 5,
-      duration: "60 mins per test",
-      difficulty: "Advanced",
-      participants: 856,
-      nextTest: "Binary Search Trees",
-      deadline: "Jan 15, 2025"
-    },
-    {
-      id: 3,
-      title: "Web Security Assessment",
-      subject: "Cybersecurity",
-      totalTests: 8,
-      completedTests: 8,
-      duration: "30 mins per test",
-      difficulty: "Beginner",
-      participants: 642,
-      nextTest: null,
-      deadline: "Completed"
+  const [testSeries, setTestSeries] = useState<TestSeries[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    fetchTestSeries();
+  }, []);
+
+  const fetchTestSeries = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('test_series')
+        .select('*')
+        .eq('is_published', true);
+
+      if (error) throw error;
+      setTestSeries(data || []);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: "Failed to load test series",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
     }
-  ]
+  };
+
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
@@ -71,83 +74,63 @@ export default function TestSeries() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-        {testSeries.map((series) => (
-          <Card key={series.id} className="card-soft p-6 hover:shadow-card transition-all duration-300">
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex-1">
-                <h3 className="font-semibold text-foreground mb-1">{series.title}</h3>
-                <p className="text-sm text-muted-foreground">{series.subject}</p>
+      {loading ? (
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+          {[...Array(6)].map((_, i) => (
+            <Card key={i} className="card-soft p-6">
+              <div className="space-y-3">
+                <div className="h-6 bg-muted rounded animate-pulse" />
+                <div className="h-4 bg-muted rounded animate-pulse w-3/4" />
+                <div className="h-4 bg-muted rounded animate-pulse w-1/2" />
               </div>
-              <Badge className={getDifficultyColor(series.difficulty)}>
-                {series.difficulty}
-              </Badge>
-            </div>
-
-            <div className="space-y-3 mb-6">
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Progress</span>
-                <span className="font-medium">
-                  {series.completedTests}/{series.totalTests} tests
-                </span>
-              </div>
-              
-              <div className="w-full bg-muted rounded-full h-2">
-                <div 
-                  className="bg-primary h-2 rounded-full transition-all duration-300" 
-                  style={{ width: `${(series.completedTests / series.totalTests) * 100}%` }}
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4 text-sm text-muted-foreground">
-                <div className="flex items-center gap-1">
-                  <Clock className="h-3 w-3" />
-                  {series.duration}
+            </Card>
+          ))}
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+          {testSeries.map((series) => (
+            <Card key={series.id} className="card-soft p-6 hover:shadow-card transition-all duration-300">
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex-1">
+                  <h3 className="font-semibold text-foreground mb-1">{series.title}</h3>
+                  <p className="text-sm text-muted-foreground">{series.subject}</p>
                 </div>
-                <div className="flex items-center gap-1">
-                  <Users className="h-3 w-3" />
-                  {series.participants}
+                <Badge className={getDifficultyColor(series.difficulty)}>
+                  {series.difficulty}
+                </Badge>
+              </div>
+
+              <div className="space-y-3 mb-6">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-muted-foreground">Total Tests</span>
+                  <span className="font-medium">{series.total_tests} tests</span>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4 text-sm text-muted-foreground">
+                  <div className="flex items-center gap-1">
+                    <Clock className="h-3 w-3" />
+                    {series.duration_minutes} mins
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <FileText className="h-3 w-3" />
+                    {series.difficulty}
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {series.nextTest ? (
               <div className="mb-4 p-3 bg-muted/50 rounded-lg">
-                <p className="text-xs text-muted-foreground mb-1">Next Test:</p>
-                <p className="text-sm font-medium">{series.nextTest}</p>
-                <div className="flex items-center gap-1 mt-1 text-xs text-muted-foreground">
-                  <Calendar className="h-3 w-3" />
-                  Due: {series.deadline}
-                </div>
+                <p className="text-xs text-muted-foreground mb-1">Description:</p>
+                <p className="text-sm">{series.description}</p>
               </div>
-            ) : (
-              <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
-                <div className="flex items-center gap-2">
-                  <Trophy className="h-4 w-4 text-green-600" />
-                  <span className="text-sm font-medium text-green-800">Series Completed!</span>
-                </div>
-              </div>
-            )}
 
-            <Button 
-              className="w-full" 
-              variant={series.completedTests === series.totalTests ? "outline" : "default"}
-            >
-              {series.completedTests === series.totalTests ? (
-                <>
-                  <Trophy className="mr-2 h-4 w-4" />
-                  View Results
-                </>
-              ) : (
-                <>
-                  <FileText className="mr-2 h-4 w-4" />
-                  Continue Series
-                </>
-              )}
-            </Button>
-          </Card>
-        ))}
-      </div>
+              <Button className="w-full">
+                <FileText className="mr-2 h-4 w-4" />
+                Start Series
+              </Button>
+            </Card>
+          ))}
+        </div>
+      )}
     </div>
   )
 }

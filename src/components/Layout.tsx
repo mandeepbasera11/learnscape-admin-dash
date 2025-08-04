@@ -12,12 +12,19 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { useAuth } from "@/hooks/useAuth"
 
 interface LayoutProps {
   children: React.ReactNode
 }
 
 export default function Layout({ children }: LayoutProps) {
+  const { user, signOut } = useAuth();
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-background">
@@ -31,10 +38,10 @@ export default function Layout({ children }: LayoutProps) {
               
               <div className="flex items-center gap-3">
                 <div className="text-lg font-semibold text-foreground">
-                  Alex Johnson
+                  {user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Medical Student'}
                 </div>
                 <div className="hidden sm:block text-sm text-muted-foreground">
-                  Computer Science Student
+                  AIIMS Aspirant
                 </div>
               </div>
             </div>
@@ -62,17 +69,21 @@ export default function Layout({ children }: LayoutProps) {
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="relative h-10 w-10 rounded-full">
                     <Avatar className="h-10 w-10">
-                      <AvatarImage src="/placeholder-avatar.jpg" alt="Alex Johnson" />
-                      <AvatarFallback className="bg-primary text-primary-foreground">AJ</AvatarFallback>
+                      <AvatarImage src={user?.user_metadata?.avatar_url} alt={user?.user_metadata?.full_name || 'User'} />
+                      <AvatarFallback className="bg-primary text-primary-foreground">
+                        {user?.user_metadata?.full_name?.charAt(0) || user?.email?.charAt(0).toUpperCase() || 'U'}
+                      </AvatarFallback>
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56" align="end" forceMount>
                   <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium leading-none">Alex Johnson</p>
+                      <p className="text-sm font-medium leading-none">
+                        {user?.user_metadata?.full_name || 'Medical Student'}
+                      </p>
                       <p className="text-xs leading-none text-muted-foreground">
-                        alex.johnson@university.edu
+                        {user?.email}
                       </p>
                     </div>
                   </DropdownMenuLabel>
@@ -85,7 +96,7 @@ export default function Layout({ children }: LayoutProps) {
                     Settings
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem className="text-destructive">
+                  <DropdownMenuItem className="text-destructive" onClick={handleSignOut}>
                     Log out
                   </DropdownMenuItem>
                 </DropdownMenuContent>

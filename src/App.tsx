@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./hooks/useAuth";
 import Layout from "./components/Layout";
 import Dashboard from "./pages/Dashboard";
 import MyCourses from "./pages/MyCourses";
@@ -13,33 +14,43 @@ import LiveTest from "./pages/LiveTest";
 import Profile from "./pages/Profile";
 import ChangePassword from "./pages/ChangePassword";
 import Orders from "./pages/Orders";
+import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Layout>
+    <AuthProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/my-courses" element={<MyCourses />} />
-            <Route path="/courses" element={<Courses />} />
-            <Route path="/test-series" element={<TestSeries />} />
-            <Route path="/mock-test" element={<MockTest />} />
-            <Route path="/live-test" element={<LiveTest />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/change-password" element={<ChangePassword />} />
-            <Route path="/orders" element={<Orders />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/*" element={
+              <ProtectedRoute>
+                <Layout>
+                  <Routes>
+                    <Route path="/" element={<Dashboard />} />
+                    <Route path="/my-courses" element={<MyCourses />} />
+                    <Route path="/courses" element={<Courses />} />
+                    <Route path="/test-series" element={<TestSeries />} />
+                    <Route path="/mock-test" element={<MockTest />} />
+                    <Route path="/live-test" element={<LiveTest />} />
+                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/change-password" element={<ChangePassword />} />
+                    <Route path="/orders" element={<Orders />} />
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </Layout>
+              </ProtectedRoute>
+            } />
           </Routes>
-        </Layout>
-      </BrowserRouter>
-    </TooltipProvider>
+        </BrowserRouter>
+      </TooltipProvider>
+    </AuthProvider>
   </QueryClientProvider>
 );
 

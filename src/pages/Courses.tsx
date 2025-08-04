@@ -3,88 +3,105 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Search, Filter, Star, Clock, Users, BookOpen } from "lucide-react"
+import { useState, useEffect } from "react"
+import { supabase } from "@/integrations/supabase/client"
+import { useToast } from "@/hooks/use-toast"
+import { useAuth } from "@/hooks/useAuth"
+
+interface Course {
+  id: string;
+  title: string;
+  description: string;
+  instructor_name: string;
+  duration_weeks: number;
+  price: number;
+  level: string;
+  thumbnail_url: string;
+  total_students: number;
+  rating: number;
+  categories?: { name: string };
+}
 
 export default function Courses() {
-  const allCourses = [
-    {
-      id: 1,
-      title: "Introduction to Machine Learning",
-      instructor: "Dr. Amanda Foster",
-      duration: "8 weeks",
-      students: 2341,
-      rating: 4.7,
-      price: "$99",
-      level: "Beginner",
-      category: "Data Science",
-      thumbnail: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=400&h=250&fit=crop&crop=center",
-      description: "Learn the fundamentals of machine learning with practical examples and hands-on projects."
-    },
-    {
-      id: 2,
-      title: "Advanced JavaScript Concepts",
-      instructor: "John Martinez",
-      duration: "6 weeks",
-      students: 1892,
-      rating: 4.9,
-      price: "$79",
-      level: "Advanced",
-      category: "Programming",
-      thumbnail: "https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=400&h=250&fit=crop&crop=center",
-      description: "Deep dive into advanced JavaScript concepts including closures, prototypes, and async programming."
-    },
-    {
-      id: 3,
-      title: "UI/UX Design Principles",
-      instructor: "Lisa Chen",
-      duration: "4 weeks",
-      students: 1564,
-      rating: 4.8,
-      price: "$69",
-      level: "Intermediate",
-      category: "Design",
-      thumbnail: "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=400&h=250&fit=crop&crop=center",
-      description: "Master the principles of user interface and user experience design."
-    },
-    {
-      id: 4,
-      title: "Database Management Systems",
-      instructor: "Prof. Robert Kim",
-      duration: "10 weeks",
-      students: 987,
-      rating: 4.5,
-      price: "$129",
-      level: "Intermediate",
-      category: "Database",
-      thumbnail: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=400&h=250&fit=crop&crop=center",
-      description: "Comprehensive course on database design, SQL, and database administration."
-    },
-    {
-      id: 5,
-      title: "Cybersecurity Fundamentals",
-      instructor: "Dr. Sarah Wilson",
-      duration: "12 weeks",
-      students: 1423,
-      rating: 4.6,
-      price: "$149",
-      level: "Beginner",
-      category: "Security",
-      thumbnail: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=400&h=250&fit=crop&crop=center",
-      description: "Learn essential cybersecurity concepts and practices to protect digital assets."
-    },
-    {
-      id: 6,
-      title: "Mobile App Development",
-      instructor: "Mike Thompson",
-      duration: "8 weeks",
-      students: 2156,
-      rating: 4.7,
-      price: "$119",
-      level: "Intermediate",
-      category: "Mobile",
-      thumbnail: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=250&fit=crop&crop=center",
-      description: "Build native mobile applications for iOS and Android platforms."
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  const { toast } = useToast();
+  const { user } = useAuth();
+
+  useEffect(() => {
+    fetchCourses();
+  }, []);
+
+  const fetchCourses = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('courses')
+        .select(`
+          *,
+          categories (
+            name
+          )
+        `)
+        .eq('is_published', true);
+
+      if (error) throw error;
+      setCourses(data || []);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: "Failed to load courses",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
     }
-  ]
+  };
+
+  const handleEnroll = async (courseId: string) => {
+    if (!user) return;
+
+    try {
+      const { error } = await supabase
+        .from('course_enrollments')
+        .insert([
+          {
+            user_id: user.id,
+            course_id: courseId,
+          }
+        ]);
+
+      if (error) {
+        if (error.code === '23505') { // Unique constraint violation
+          toast({
+            title: "Already enrolled",
+            description: "You are already enrolled in this course",
+            variant: "destructive"
+          });
+        } else {
+          throw error;
+        }
+      } else {
+        toast({
+          title: "Success!",
+          description: "Successfully enrolled in the course",
+        });
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: "Failed to enroll in course",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const filteredCourses = courses.filter(course =>
+    course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    course.instructor_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    course.categories?.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
 
   const getLevelColor = (level: string) => {
     switch (level) {
@@ -117,6 +134,8 @@ export default function Courses() {
           <Input 
             placeholder="Search courses..." 
             className="pl-10"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
         <Button variant="outline" className="sm:w-auto">
@@ -126,63 +145,78 @@ export default function Courses() {
       </div>
 
       {/* Courses Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {allCourses.map((course) => (
-          <Card key={course.id} className="card-soft overflow-hidden group hover:shadow-card transition-all duration-300">
-            <div className="relative h-48 bg-muted">
-              <img 
-                src={course.thumbnail} 
-                alt={course.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute top-3 left-3">
-                <Badge className={getLevelColor(course.level)}>
-                  {course.level}
-                </Badge>
+      {loading ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[...Array(6)].map((_, i) => (
+            <Card key={i} className="card-soft overflow-hidden">
+              <div className="h-48 bg-muted animate-pulse" />
+              <div className="p-6 space-y-3">
+                <div className="h-4 bg-muted rounded animate-pulse" />
+                <div className="h-4 bg-muted rounded animate-pulse w-3/4" />
+                <div className="h-4 bg-muted rounded animate-pulse w-1/2" />
               </div>
-              <div className="absolute top-3 right-3">
-                <Badge variant="secondary">{course.category}</Badge>
-              </div>
-            </div>
-            
-            <div className="p-6">
-              <div className="flex items-start justify-between mb-3">
-                <h3 className="font-semibold text-foreground line-clamp-2">{course.title}</h3>
-                <span className="text-lg font-bold text-primary">{course.price}</span>
-              </div>
-              
-              <div className="flex items-center gap-2 mb-3">
-                <Users className="h-4 w-4 text-muted-foreground" />
-                <span className="text-sm text-muted-foreground">{course.instructor}</span>
-              </div>
-              
-              <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
-                {course.description}
-              </p>
-              
-              <div className="flex items-center gap-4 mb-4 text-sm text-muted-foreground">
-                <div className="flex items-center gap-1">
-                  <Clock className="h-3 w-3" />
-                  {course.duration}
+            </Card>
+          ))}
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredCourses.map((course) => (
+            <Card key={course.id} className="card-soft overflow-hidden group hover:shadow-card transition-all duration-300">
+              <div className="relative h-48 bg-muted">
+                <img 
+                  src={course.thumbnail_url} 
+                  alt={course.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+                <div className="absolute top-3 left-3">
+                  <Badge className={getLevelColor(course.level)}>
+                    {course.level}
+                  </Badge>
                 </div>
-                <div className="flex items-center gap-1">
-                  <Users className="h-3 w-3" />
-                  {course.students.toLocaleString()}
-                </div>
-                <div className="flex items-center gap-1">
-                  <Star className="h-3 w-3 text-yellow-500 fill-current" />
-                  {course.rating}
+                <div className="absolute top-3 right-3">
+                  <Badge variant="secondary">{course.categories?.name}</Badge>
                 </div>
               </div>
               
-              <Button className="w-full">
-                <BookOpen className="mr-2 h-4 w-4" />
-                Enroll Now
-              </Button>
-            </div>
-          </Card>
-        ))}
-      </div>
+              <div className="p-6">
+                <div className="flex items-start justify-between mb-3">
+                  <h3 className="font-semibold text-foreground line-clamp-2">{course.title}</h3>
+                  <span className="text-lg font-bold text-primary">₹{course.price}</span>
+                </div>
+                
+                <div className="flex items-center gap-2 mb-3">
+                  <Users className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm text-muted-foreground">{course.instructor_name}</span>
+                </div>
+                
+                <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+                  {course.description}
+                </p>
+                
+                <div className="flex items-center gap-4 mb-4 text-sm text-muted-foreground">
+                  <div className="flex items-center gap-1">
+                    <Clock className="h-3 w-3" />
+                    {course.duration_weeks} weeks
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Users className="h-3 w-3" />
+                    {course.total_students.toLocaleString()}
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Star className="h-3 w-3 text-yellow-500 fill-current" />
+                    {course.rating}
+                  </div>
+                </div>
+                
+                <Button className="w-full" onClick={() => handleEnroll(course.id)}>
+                  <BookOpen className="mr-2 h-4 w-4" />
+                  Enroll Now
+                </Button>
+              </div>
+            </Card>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
