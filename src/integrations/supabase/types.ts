@@ -14,7 +14,305 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      categories: {
+        Row: {
+          color: string | null
+          created_at: string
+          description: string | null
+          icon_name: string | null
+          id: string
+          name: string
+        }
+        Insert: {
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          icon_name?: string | null
+          id?: string
+          name: string
+        }
+        Update: {
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          icon_name?: string | null
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      course_enrollments: {
+        Row: {
+          completed: boolean | null
+          completed_at: string | null
+          course_id: string
+          enrolled_at: string
+          id: string
+          progress: number | null
+          user_id: string
+        }
+        Insert: {
+          completed?: boolean | null
+          completed_at?: string | null
+          course_id: string
+          enrolled_at?: string
+          id?: string
+          progress?: number | null
+          user_id: string
+        }
+        Update: {
+          completed?: boolean | null
+          completed_at?: string | null
+          course_id?: string
+          enrolled_at?: string
+          id?: string
+          progress?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "course_enrollments_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      courses: {
+        Row: {
+          category_id: string | null
+          created_at: string
+          description: string | null
+          duration_weeks: number
+          id: string
+          instructor_name: string
+          is_published: boolean | null
+          level: string
+          price: number
+          rating: number | null
+          thumbnail_url: string | null
+          title: string
+          total_students: number | null
+          updated_at: string
+        }
+        Insert: {
+          category_id?: string | null
+          created_at?: string
+          description?: string | null
+          duration_weeks?: number
+          id?: string
+          instructor_name: string
+          is_published?: boolean | null
+          level: string
+          price?: number
+          rating?: number | null
+          thumbnail_url?: string | null
+          title: string
+          total_students?: number | null
+          updated_at?: string
+        }
+        Update: {
+          category_id?: string | null
+          created_at?: string
+          description?: string | null
+          duration_weeks?: number
+          id?: string
+          instructor_name?: string
+          is_published?: boolean | null
+          level?: string
+          price?: number
+          rating?: number | null
+          thumbnail_url?: string | null
+          title?: string
+          total_students?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "courses_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+          medical_college: string | null
+          phone: string | null
+          target_exam: string | null
+          updated_at: string
+          user_id: string
+          year_of_study: number | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          medical_college?: string | null
+          phone?: string | null
+          target_exam?: string | null
+          updated_at?: string
+          user_id: string
+          year_of_study?: number | null
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          medical_college?: string | null
+          phone?: string | null
+          target_exam?: string | null
+          updated_at?: string
+          user_id?: string
+          year_of_study?: number | null
+        }
+        Relationships: []
+      }
+      test_attempts: {
+        Row: {
+          completed: boolean | null
+          completed_at: string | null
+          correct_answers: number | null
+          id: string
+          score: number | null
+          started_at: string
+          test_id: string
+          time_taken_minutes: number | null
+          total_questions: number
+          user_id: string
+        }
+        Insert: {
+          completed?: boolean | null
+          completed_at?: string | null
+          correct_answers?: number | null
+          id?: string
+          score?: number | null
+          started_at?: string
+          test_id: string
+          time_taken_minutes?: number | null
+          total_questions: number
+          user_id: string
+        }
+        Update: {
+          completed?: boolean | null
+          completed_at?: string | null
+          correct_answers?: number | null
+          id?: string
+          score?: number | null
+          started_at?: string
+          test_id?: string
+          time_taken_minutes?: number | null
+          total_questions?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "test_attempts_test_id_fkey"
+            columns: ["test_id"]
+            isOneToOne: false
+            referencedRelation: "tests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      test_series: {
+        Row: {
+          created_at: string
+          description: string | null
+          difficulty: string
+          duration_minutes: number
+          id: string
+          is_published: boolean | null
+          subject: string
+          title: string
+          total_tests: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          difficulty: string
+          duration_minutes?: number
+          id?: string
+          is_published?: boolean | null
+          subject: string
+          title: string
+          total_tests?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          difficulty?: string
+          duration_minutes?: number
+          id?: string
+          is_published?: boolean | null
+          subject?: string
+          title?: string
+          total_tests?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      tests: {
+        Row: {
+          created_at: string
+          description: string | null
+          duration_minutes: number
+          id: string
+          is_published: boolean | null
+          passing_score: number | null
+          sequence_number: number
+          test_series_id: string
+          title: string
+          total_questions: number
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          duration_minutes?: number
+          id?: string
+          is_published?: boolean | null
+          passing_score?: number | null
+          sequence_number: number
+          test_series_id: string
+          title: string
+          total_questions?: number
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          duration_minutes?: number
+          id?: string
+          is_published?: boolean | null
+          passing_score?: number | null
+          sequence_number?: number
+          test_series_id?: string
+          title?: string
+          total_questions?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tests_test_series_id_fkey"
+            columns: ["test_series_id"]
+            isOneToOne: false
+            referencedRelation: "test_series"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
