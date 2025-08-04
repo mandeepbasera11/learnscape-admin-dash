@@ -8,50 +8,51 @@
 
 @layer base {
   :root {
-    /* Light theme colors - Watercolor palette */
-    --background: 195 30% 96%;
-    --foreground: 210 85% 25%;
+    /* Light theme colors - Gradient & Dark Blue palette */
+    --background: 0 0% 100%;
+    --foreground: 220 100% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 210 85% 25%;
+    --card-foreground: 220 100% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 210 85% 25%;
+    --popover-foreground: 220 100% 15%;
 
-    /* Primary - Soft Turquoise */
-    --primary: 185 84% 70%;
+    /* Primary - Dark Blue */
+    --primary: 220 100% 20%;
     --primary-foreground: 0 0% 100%;
-    --primary-hover: 185 84% 64%;
+    --primary-hover: 220 100% 25%;
 
-    /* Secondary - Ocean Blue */
-    --secondary: 200 75% 65%;
+    /* Secondary - Medium Blue */
+    --secondary: 220 85% 45%;
     --secondary-foreground: 0 0% 100%;
 
-    /* Muted - Soft Aqua backgrounds */
-    --muted: 190 30% 94%;
-    --muted-foreground: 190 20% 50%;
+    /* Muted - Light Blue backgrounds */
+    --muted: 220 20% 96%;
+    --muted-foreground: 220 40% 60%;
 
-    /* Accent - Teal */
-    --accent: 180 65% 55%;
+    /* Accent - Blue accent */
+    --accent: 220 70% 35%;
     --accent-foreground: 0 0% 100%;
 
-    /* Destructive - Soft red */
+    /* Destructive - Red */
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
     /* Borders and inputs */
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 214 84% 56%;
+    --border: 220 20% 88%;
+    --input: 220 20% 88%;
+    --ring: 220 100% 20%;
 
     /* Enhanced design tokens */
     --surface: 0 0% 100%;
-    --surface-hover: 220 14% 98%;
-    --surface-active: 220 14% 96%;
+    --surface-hover: 220 20% 98%;
+    --surface-active: 220 20% 95%;
     
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(185 84% 70%), hsl(180 65% 55%));
-    --gradient-surface: linear-gradient(180deg, hsl(190 30% 98%), hsl(190 30% 96%));
+    /* Gradients - Blue to White */
+    --gradient-primary: linear-gradient(135deg, hsl(220 100% 20%), hsl(220 85% 45%));
+    --gradient-surface: linear-gradient(180deg, hsl(0 0% 100%), hsl(220 20% 98%));
+    --gradient-hero: linear-gradient(135deg, hsl(220 100% 15%), hsl(220 85% 35%), hsl(0 0% 100%));
     
     /* Shadows */
     --shadow-soft: 0 1px 3px 0 hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
