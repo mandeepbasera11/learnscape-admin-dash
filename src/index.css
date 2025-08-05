@@ -8,31 +8,31 @@
 
 @layer base {
   :root {
-    /* Light theme colors - Gradient & Dark Blue palette */
-    --background: 0 0% 100%;
-    --foreground: 220 100% 15%;
+    /* Light theme colors - Light Green palette */
+    --background: 120 25% 98%;
+    --foreground: 160 80% 15%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 220 100% 15%;
+    --card: 120 50% 97%;
+    --card-foreground: 160 80% 15%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 100% 15%;
+    --popover: 120 50% 97%;
+    --popover-foreground: 160 80% 15%;
 
-    /* Primary - Dark Blue */
-    --primary: 220 100% 20%;
+    /* Primary - Forest Green */
+    --primary: 160 80% 25%;
     --primary-foreground: 0 0% 100%;
-    --primary-hover: 220 100% 25%;
+    --primary-hover: 160 80% 30%;
 
-    /* Secondary - Medium Blue */
-    --secondary: 220 85% 45%;
+    /* Secondary - Medium Green */
+    --secondary: 140 60% 45%;
     --secondary-foreground: 0 0% 100%;
 
-    /* Muted - Light Blue backgrounds */
-    --muted: 220 20% 96%;
-    --muted-foreground: 220 40% 60%;
+    /* Muted - Very Light Green backgrounds */
+    --muted: 120 30% 94%;
+    --muted-foreground: 140 40% 50%;
 
-    /* Accent - Blue accent */
-    --accent: 220 70% 35%;
+    /* Accent - Emerald accent */
+    --accent: 150 70% 35%;
     --accent-foreground: 0 0% 100%;
 
     /* Destructive - Red */
@@ -40,19 +40,19 @@
     --destructive-foreground: 0 0% 100%;
 
     /* Borders and inputs */
-    --border: 220 20% 88%;
-    --input: 220 20% 88%;
-    --ring: 220 100% 20%;
+    --border: 120 25% 85%;
+    --input: 120 25% 85%;
+    --ring: 160 80% 25%;
 
     /* Enhanced design tokens */
-    --surface: 0 0% 100%;
-    --surface-hover: 220 20% 98%;
-    --surface-active: 220 20% 95%;
+    --surface: 120 50% 97%;
+    --surface-hover: 120 30% 95%;
+    --surface-active: 120 35% 92%;
     
-    /* Gradients - Blue to White */
-    --gradient-primary: linear-gradient(135deg, hsl(220 100% 20%), hsl(220 85% 45%));
-    --gradient-surface: linear-gradient(180deg, hsl(0 0% 100%), hsl(220 20% 98%));
-    --gradient-hero: linear-gradient(135deg, hsl(220 100% 15%), hsl(220 85% 35%), hsl(0 0% 100%));
+    /* Gradients - Green theme */
+    --gradient-primary: linear-gradient(135deg, hsl(160 80% 25%), hsl(140 60% 45%));
+    --gradient-surface: linear-gradient(180deg, hsl(120 50% 97%), hsl(120 30% 95%));
+    --gradient-hero: linear-gradient(135deg, hsl(160 80% 15%), hsl(140 70% 35%), hsl(120 50% 97%));
     
     /* Shadows */
     --shadow-soft: 0 1px 3px 0 hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
@@ -65,15 +65,15 @@
 
     --radius: 0.75rem;
 
-    /* Sidebar specific */
-    --sidebar-background: 250 50% 98%;
-    --sidebar-foreground: 215 25% 26%;
-    --sidebar-primary: 214 84% 56%;
+    /* Sidebar specific - Green theme */
+    --sidebar-background: 120 40% 96%;
+    --sidebar-foreground: 160 60% 20%;
+    --sidebar-primary: 150 70% 40%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 14% 96%;
-    --sidebar-accent-foreground: 215 25% 15%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 214 84% 56%;
+    --sidebar-accent: 120 25% 93%;
+    --sidebar-accent-foreground: 160 60% 15%;
+    --sidebar-border: 120 20% 88%;
+    --sidebar-ring: 150 70% 40%;
   }
 
   .dark {
