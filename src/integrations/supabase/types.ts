@@ -14,12 +14,11 @@ export type Database = {
   }
   public: {
     Tables: {
-      categories: {
+      "Core Subjects": {
         Row: {
           color: string | null
           created_at: string
           description: string | null
-          icon_name: string | null
           id: string
           name: string
         }
@@ -27,7 +26,6 @@ export type Database = {
           color?: string | null
           created_at?: string
           description?: string | null
-          icon_name?: string | null
           id?: string
           name: string
         }
@@ -35,9 +33,50 @@ export type Database = {
           color?: string | null
           created_at?: string
           description?: string | null
-          icon_name?: string | null
           id?: string
           name?: string
+        }
+        Relationships: []
+      }
+      coupons: {
+        Row: {
+          code: string
+          created_at: string
+          current_uses: number | null
+          discount_type: string
+          discount_value: number
+          id: string
+          is_active: boolean | null
+          max_uses: number | null
+          updated_at: string
+          valid_from: string | null
+          valid_until: string | null
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          current_uses?: number | null
+          discount_type: string
+          discount_value: number
+          id?: string
+          is_active?: boolean | null
+          max_uses?: number | null
+          updated_at?: string
+          valid_from?: string | null
+          valid_until?: string | null
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          current_uses?: number | null
+          discount_type?: string
+          discount_value?: number
+          id?: string
+          is_active?: boolean | null
+          max_uses?: number | null
+          updated_at?: string
+          valid_from?: string | null
+          valid_until?: string | null
         }
         Relationships: []
       }
@@ -133,7 +172,60 @@ export type Database = {
             foreignKeyName: "courses_category_id_fkey"
             columns: ["category_id"]
             isOneToOne: false
-            referencedRelation: "categories"
+            referencedRelation: "Core Subjects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          amount: number
+          course_id: string | null
+          created_at: string
+          currency: string | null
+          discount_amount: number | null
+          discount_code: string | null
+          id: string
+          original_amount: number
+          status: string | null
+          stripe_session_id: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          amount: number
+          course_id?: string | null
+          created_at?: string
+          currency?: string | null
+          discount_amount?: number | null
+          discount_code?: string | null
+          id?: string
+          original_amount: number
+          status?: string | null
+          stripe_session_id?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          amount?: number
+          course_id?: string | null
+          created_at?: string
+          currency?: string | null
+          discount_amount?: number | null
+          discount_code?: string | null
+          id?: string
+          original_amount?: number
+          status?: string | null
+          stripe_session_id?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
             referencedColumns: ["id"]
           },
         ]
@@ -312,6 +404,24 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      "Weekly Mega Test": {
+        Row: {
+          created_at: string
+          id: number
+          "RTI MEGA TEST": string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          "RTI MEGA TEST"?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          "RTI MEGA TEST"?: string | null
+        }
+        Relationships: []
       }
     }
     Views: {

@@ -2,11 +2,12 @@ import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Search, Filter, Star, Clock, Users, BookOpen } from "lucide-react"
+import { Search, Filter, Star, Clock, Users, BookOpen, CreditCard } from "lucide-react"
 import { useState, useEffect } from "react"
 import { supabase } from "@/integrations/supabase/client"
 import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/hooks/useAuth"
+import PaymentModal from "@/components/PaymentModal"
 
 interface Course {
   id: string;
@@ -19,13 +20,15 @@ interface Course {
   thumbnail_url: string;
   total_students: number;
   rating: number;
-  categories?: { name: string };
+  categories?: { name: string } | null;
 }
 
 export default function Courses() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const { toast } = useToast();
   const { user } = useAuth();
 
@@ -37,16 +40,17 @@ export default function Courses() {
     try {
       const { data, error } = await supabase
         .from('courses')
-        .select(`
-          *,
-          categories (
-            name
-          )
-        `)
+        .select('*')
         .eq('is_published', true);
 
       if (error) throw error;
-      setCourses(data || []);
+      
+      const transformedCourses = (data || []).map(course => ({
+        ...course,
+        categories: null // Simplified for now
+      }));
+      
+      setCourses(transformedCourses);
     } catch (error: any) {
       toast({
         title: "Error",
@@ -56,6 +60,19 @@ export default function Courses() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleBuyCourse = (course: Course) => {
+    if (!user) {
+      toast({
+        title: "Login Required",
+        description: "Please login to purchase courses",
+        variant: "destructive"
+      });
+      return;
+    }
+    setSelectedCourse(course);
+    setIsPaymentModalOpen(true);
   };
 
   const handleEnroll = async (courseId: string) => {
@@ -98,8 +115,7 @@ export default function Courses() {
 
   const filteredCourses = courses.filter(course =>
     course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    course.instructor_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    course.categories?.name.toLowerCase().includes(searchTerm.toLowerCase())
+    course.instructor_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
 
@@ -174,7 +190,7 @@ export default function Courses() {
                   </Badge>
                 </div>
                 <div className="absolute top-3 right-3">
-                  <Badge variant="secondary">{course.categories?.name}</Badge>
+                  <Badge variant="secondary">Course</Badge>
                 </div>
               </div>
               
@@ -208,14 +224,40 @@ export default function Courses() {
                   </div>
                 </div>
                 
-                <Button className="w-full" onClick={() => handleEnroll(course.id)}>
-                  <BookOpen className="mr-2 h-4 w-4" />
-                  Enroll Now
-                </Button>
+                <div className="space-y-2">
+                  {course.price === 0 ? (
+                    <Button className="w-full" onClick={() => handleEnroll(course.id)}>
+                      <BookOpen className="mr-2 h-4 w-4" />
+                      Enroll Free
+                    </Button>
+                  ) : (
+                    <Button className="w-full" onClick={() => handleBuyCourse(course)}>
+                      <CreditCard className="mr-2 h-4 w-4" />
+                      Buy Course - ₹{course.price}
+                    </Button>
+                  )}
+                </div>
               </div>
             </Card>
           ))}
         </div>
+      )}
+
+      {/* Payment Modal */}
+      {selectedCourse && (
+        <PaymentModal
+          isOpen={isPaymentModalOpen}
+          onClose={() => {
+            setIsPaymentModalOpen(false);
+            setSelectedCourse(null);
+          }}
+          course={{
+            id: selectedCourse.id,
+            title: selectedCourse.title,
+            price: selectedCourse.price,
+            instructor_name: selectedCourse.instructor_name,
+          }}
+        />
       )}
     </div>
   )

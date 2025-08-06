@@ -14,6 +14,7 @@ import LiveTest from "./pages/LiveTest";
 import Profile from "./pages/Profile";
 import ChangePassword from "./pages/ChangePassword";
 import Orders from "./pages/Orders";
+import PaymentSuccess from "./pages/PaymentSuccess";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -42,6 +43,7 @@ const App = () => (
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/change-password" element={<ChangePassword />} />
                     <Route path="/orders" element={<Orders />} />
+                    <Route path="/payment-success" element={<PaymentSuccess />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </Layout>
