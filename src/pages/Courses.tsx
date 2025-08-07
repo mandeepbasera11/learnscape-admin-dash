@@ -178,19 +178,30 @@ export default function Courses() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredCourses.map((course) => (
             <Card key={course.id} className="card-soft overflow-hidden group hover:shadow-card transition-all duration-300">
-              <div className="relative h-48 bg-muted">
-                <img 
-                  src={course.thumbnail_url} 
-                  alt={course.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
+              <div className="relative h-48 bg-gradient-to-br from-primary/10 to-primary/20 overflow-hidden">
+                {course.thumbnail_url ? (
+                  <img 
+                    src={course.thumbnail_url} 
+                    alt={course.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                    }}
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <BookOpen className="h-12 w-12 text-primary/40" />
+                  </div>
+                )}
                 <div className="absolute top-3 left-3">
                   <Badge className={getLevelColor(course.level)}>
                     {course.level}
                   </Badge>
                 </div>
                 <div className="absolute top-3 right-3">
-                  <Badge variant="secondary">Course</Badge>
+                  <Badge variant="secondary" className="bg-primary text-primary-foreground">
+                    Course
+                  </Badge>
                 </div>
               </div>
               
