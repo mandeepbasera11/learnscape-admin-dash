@@ -35,15 +35,34 @@ const menuItems = [
     type: "single"
   },
   {
-    title: "Home Folder",
-    type: "group",
-    items: [
-      { title: "My Courses", url: "/my-courses", icon: BookOpen },
-      { title: "Courses", url: "/courses", icon: GraduationCap },
-      { title: "Test Series", url: "/test-series", icon: FileText },
-      { title: "Mock Test", url: "/mock-test", icon: Timer },
-      { title: "Live Test", url: "/live-test", icon: Video },
-    ]
+    title: "My Courses",
+    url: "/my-courses",
+    icon: BookOpen,
+    type: "single"
+  },
+  {
+    title: "Courses",
+    url: "/courses",
+    icon: GraduationCap,
+    type: "single"
+  },
+  {
+    title: "Test Series",
+    url: "/test-series",
+    icon: FileText,
+    type: "single"
+  },
+  {
+    title: "Mock Test",
+    url: "/mock-test",
+    icon: Timer,
+    type: "single"
+  },
+  {
+    title: "Live Test",
+    url: "/live-test",
+    icon: Video,
+    type: "single"
   },
   {
     title: "Account",
@@ -62,7 +81,7 @@ export function AppSidebar() {
   const currentPath = location.pathname
   const isCollapsed = state === "collapsed"
 
-  const [openGroups, setOpenGroups] = useState<string[]>(['Home Folder', 'Account'])
+  const [openGroups, setOpenGroups] = useState<string[]>(['Account'])
 
   const isActive = (path: string) => currentPath === path
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
