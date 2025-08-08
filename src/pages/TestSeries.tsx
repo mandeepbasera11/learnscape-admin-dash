@@ -10,10 +10,12 @@ interface TestSeries {
   id: string;
   title: string;
   subject: string;
-  description: string;
+  description: string | null;
   total_tests: number;
-  difficulty: string;
   duration_minutes: number;
+  is_published: boolean | null;
+  created_at: string;
+  updated_at: string;
 }
 
 export default function TestSeries() {
@@ -95,8 +97,8 @@ export default function TestSeries() {
                   <h3 className="font-semibold text-foreground mb-1">{series.title}</h3>
                   <p className="text-sm text-muted-foreground">{series.subject}</p>
                 </div>
-                <Badge className={getDifficultyColor(series.difficulty)}>
-                  {series.difficulty}
+                <Badge className="bg-primary/10 text-primary">
+                  {series.subject}
                 </Badge>
               </div>
 
@@ -113,14 +115,14 @@ export default function TestSeries() {
                   </div>
                   <div className="flex items-center gap-1">
                     <FileText className="h-3 w-3" />
-                    {series.difficulty}
+                    {series.subject}
                   </div>
                 </div>
               </div>
 
               <div className="mb-4 p-3 bg-muted/50 rounded-lg">
                 <p className="text-xs text-muted-foreground mb-1">Description:</p>
-                <p className="text-sm">{series.description}</p>
+                <p className="text-sm">{series.description || 'No description available'}</p>
               </div>
 
               <Button className="w-full">

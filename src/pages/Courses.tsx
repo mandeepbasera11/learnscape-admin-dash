@@ -12,15 +12,17 @@ import PaymentModal from "@/components/PaymentModal"
 interface Course {
   id: string;
   title: string;
-  description: string;
+  description: string | null;
   instructor_name: string;
   duration_weeks: number;
   price: number;
-  level: string;
-  thumbnail_url: string;
-  total_students: number;
-  rating: number;
-  categories?: { name: string } | null;
+  thumbnail_url: string | null;
+  total_students: number | null;
+  rating: number | null;
+  category_id: string | null;
+  is_published: boolean | null;
+  created_at: string;
+  updated_at: string;
 }
 
 export default function Courses() {
@@ -45,12 +47,9 @@ export default function Courses() {
 
       if (error) throw error;
       
-      const transformedCourses = (data || []).map(course => ({
-        ...course,
-        categories: null // Simplified for now
-      }));
+      setCourses(data || []);
       
-      setCourses(transformedCourses);
+      
     } catch (error: any) {
       toast({
         title: "Error",
@@ -193,11 +192,6 @@ export default function Courses() {
                     <BookOpen className="h-12 w-12 text-primary/40" />
                   </div>
                 )}
-                <div className="absolute top-3 left-3">
-                  <Badge className={getLevelColor(course.level)}>
-                    {course.level}
-                  </Badge>
-                </div>
                 <div className="absolute top-3 right-3">
                   <Badge variant="secondary" className="bg-primary text-primary-foreground">
                     Course
@@ -216,23 +210,23 @@ export default function Courses() {
                   <span className="text-sm text-muted-foreground">{course.instructor_name}</span>
                 </div>
                 
-                <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
-                  {course.description}
-                </p>
+                 <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+                   {course.description || 'No description available'}
+                 </p>
                 
                 <div className="flex items-center gap-4 mb-4 text-sm text-muted-foreground">
                   <div className="flex items-center gap-1">
                     <Clock className="h-3 w-3" />
                     {course.duration_weeks} weeks
                   </div>
-                  <div className="flex items-center gap-1">
-                    <Users className="h-3 w-3" />
-                    {course.total_students.toLocaleString()}
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Star className="h-3 w-3 text-yellow-500 fill-current" />
-                    {course.rating}
-                  </div>
+                   <div className="flex items-center gap-1">
+                     <Users className="h-3 w-3" />
+                     {course.total_students?.toLocaleString() || '0'}
+                   </div>
+                   <div className="flex items-center gap-1">
+                     <Star className="h-3 w-3 text-yellow-500 fill-current" />
+                     {course.rating || '0'}
+                   </div>
                 </div>
                 
                 <div className="space-y-2">

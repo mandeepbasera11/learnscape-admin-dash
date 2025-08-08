@@ -46,3 +46,15 @@ verify_jwt = true
 
 [functions.verify-coupon]
 verify_jwt = false
+
+[functions.profile-management]
+verify_jwt = true
+
+[functions.change-password]
+verify_jwt = true
+
+[functions.user-orders]
+verify_jwt = true
+
+[functions.search]
+verify_jwt = false
