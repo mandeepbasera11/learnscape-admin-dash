@@ -127,7 +127,6 @@ export type Database = {
           id: string
           instructor_name: string
           is_published: boolean | null
-          level: string
           price: number
           rating: number | null
           thumbnail_url: string | null
@@ -143,7 +142,6 @@ export type Database = {
           id?: string
           instructor_name: string
           is_published?: boolean | null
-          level: string
           price?: number
           rating?: number | null
           thumbnail_url?: string | null
@@ -159,7 +157,6 @@ export type Database = {
           id?: string
           instructor_name?: string
           is_published?: boolean | null
-          level?: string
           price?: number
           rating?: number | null
           thumbnail_url?: string | null
@@ -323,7 +320,6 @@ export type Database = {
         Row: {
           created_at: string
           description: string | null
-          difficulty: string
           duration_minutes: number
           id: string
           is_published: boolean | null
@@ -335,7 +331,6 @@ export type Database = {
         Insert: {
           created_at?: string
           description?: string | null
-          difficulty: string
           duration_minutes?: number
           id?: string
           is_published?: boolean | null
@@ -347,7 +342,6 @@ export type Database = {
         Update: {
           created_at?: string
           description?: string | null
-          difficulty?: string
           duration_minutes?: number
           id?: string
           is_published?: boolean | null
