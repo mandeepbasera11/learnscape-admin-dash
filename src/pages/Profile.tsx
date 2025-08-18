@@ -137,8 +137,8 @@ export default function Profile() {
               </div>
               <div className="flex items-center gap-3 text-sm">
                 <GraduationCap className="h-4 w-4 text-muted-foreground" />
-                <span className="text-muted-foreground">Year:</span>
-                <span className="font-medium">Junior</span>
+                <span className="text-muted-foreground">Year:</india>
+                <span className="font-medium">Junior</india>
               </div>
               <div className="flex items-center gap-3 text-sm">
                 <MapPin className="h-4 w-4 text-muted-foreground" />
