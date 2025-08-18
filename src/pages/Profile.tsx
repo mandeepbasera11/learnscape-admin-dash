@@ -57,11 +57,11 @@ export default function Profile() {
               <div className="space-y-4">
                 <div>
                   <Label htmlFor="firstName">First Name</Label>
-                  <Input id="firstName" value="Alex" readOnly className="mt-1" />
+                  <Input id="firstName" value="Mandeep" readOnly className="mt-1" />
                 </div>
                 <div>
                   <Label htmlFor="email">Email</Label>
-                  <Input id="email" value="alex.johnson@university.edu" readOnly className="mt-1" />
+                  <Input id="email" value="mk.basera@university.edu" readOnly className="mt-1" />
                 </div>
                 <div>
                   <Label htmlFor="university">University</Label>
@@ -72,11 +72,11 @@ export default function Profile() {
               <div className="space-y-4">
                 <div>
                   <Label htmlFor="lastName">Last Name</Label>
-                  <Input id="lastName" value="Johnson" readOnly className="mt-1" />
+                  <Input id="lastName" value="Basera" readOnly className="mt-1" />
                 </div>
                 <div>
                   <Label htmlFor="phone">Phone</Label>
-                  <Input id="phone" value="+1 (555) 123-4567" readOnly className="mt-1" />
+                  <Input id="phone" value="+91  123-45678" readOnly className="mt-1" />
                 </div>
                 <div>
                   <Label htmlFor="major">Major</Label>
@@ -142,8 +142,8 @@ export default function Profile() {
               </div>
               <div className="flex items-center gap-3 text-sm">
                 <MapPin className="h-4 w-4 text-muted-foreground" />
-                <span className="text-muted-foreground">Location:</span>
-                <span className="font-medium">Boston, MA</span>
+                <span className="text-muted-foreground">Location:</india>
+                <span className="font-medium">Vaishali Nagar, Jaipur</India>
               </div>
             </div>
           </Card>
