@@ -9,7 +9,7 @@ export default function MyCourses() {
     {
       id: 1,
       title: "Advanced React Development",
-      instructor: "Dr. Sarah Mitchell",
+      instructor: "Dr. Basera",
       progress: 75,
       totalLessons: 24,
       completedLessons: 18,
@@ -21,7 +21,7 @@ export default function MyCourses() {
     {
       id: 2,
       title: "Data Structures & Algorithms",
-      instructor: "Prof. Michael Chen",
+      instructor: "Prof. Basera",
       progress: 60,
       totalLessons: 32,
       completedLessons: 19,
@@ -33,7 +33,7 @@ export default function MyCourses() {
     {
       id: 3,
       title: "Web Security Fundamentals",
-      instructor: "Dr. Emily Roberts",
+      instructor: "Dr. Basera",
       progress: 100,
       totalLessons: 16,
       completedLessons: 16,
