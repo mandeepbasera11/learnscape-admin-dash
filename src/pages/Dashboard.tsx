@@ -104,21 +104,21 @@ export default function Dashboard() {
     {
       title: "Advanced React Development",
       progress: 75,
-      instructor: "Dr. Sarah Mitchell",
+      instructor: "Dr. Basera",
       lastAccessed: "2 hours ago",
       status: "In Progress"
     },
     {
       title: "Data Structures & Algorithms",
       progress: 60,
-      instructor: "Prof. Michael Chen",
+      instructor: "Prof. Basera",
       lastAccessed: "1 day ago",
       status: "In Progress"
     },
     {
       title: "Web Security Fundamentals",
       progress: 100,
-      instructor: "Dr. Emily Roberts",
+      instructor: "Dr. Basera",
       lastAccessed: "3 days ago",
       status: "Completed"
     }
