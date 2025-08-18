@@ -33,7 +33,7 @@ export default function Profile() {
           <Edit3 className="mr-2 h-4 w-4" />
           Edit Profile
         </Button>
-      <div>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Profile Information */}
