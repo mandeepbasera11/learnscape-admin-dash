@@ -43,11 +43,11 @@ export default function Profile() {
             
             <div className="flex items-center gap-6 mb-6">
               <Avatar className="h-24 w-24">
-                <AvatarImage src="/placeholder-avatar.jpg" alt="Alex Johnson" />
+                <AvatarImage src="/placeholder-avatar.jpg" alt="Mandeep Basera" />
                 <AvatarFallback className="bg-primary text-primary-foreground text-2xl">AJ</AvatarFallback>
               </Avatar>
               <div>
-                <h3 className="text-2xl font-bold text-foreground">Alex Johnson</h3>
+                <h3 className="text-2xl font-bold text-foreground">Mandeep Basera</h3>
                 <p className="text-muted-foreground">Computer Science Student</p>
                 <Badge className="mt-2">Premium Member</Badge>
               </div>
@@ -133,17 +133,17 @@ export default function Profile() {
               <div className="flex items-center gap-3 text-sm">
                 <Calendar className="h-4 w-4 text-muted-foreground" />
                 <span className="text-muted-foreground">Joined:</span>
-                <span className="font-medium">Jan 2024</span>
+                <span className="font-medium">Aug 2025</span>
               </div>
               <div className="flex items-center gap-3 text-sm">
                 <GraduationCap className="h-4 w-4 text-muted-foreground" />
-                <span className="text-muted-foreground">Year:</india>
-                <span className="font-medium">Junior</india>
+                <span className="text-muted-foreground">Year:</span>
+                <span className="font-medium">Junior</span>
               </div>
               <div className="flex items-center gap-3 text-sm">
                 <MapPin className="h-4 w-4 text-muted-foreground" />
-                <span className="text-muted-foreground">Location:</india>
-                <span className="font-medium">Vaishali Nagar, Jaipur</India>
+                <span className="text-muted-foreground">Location:</span>
+                <span className="font-medium">Vaishali Nagar, Jaipur</span>
               </div>
             </div>
           </Card>
