@@ -18,6 +18,9 @@ export default function Auth() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // SEO: set page title based on mode
+    document.title = isLogin ? "Sign In | AIIMS Preparation" : "Sign Up | AIIMS Preparation";
+
     // Check if user is already logged in
     const checkUser = async () => {
       const { data: { session } } = await supabase.auth.getSession();
@@ -26,7 +29,7 @@ export default function Auth() {
       }
     };
     checkUser();
-  }, [navigate]);
+  }, [navigate, isLogin]);
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,6 +68,35 @@ export default function Auth() {
           description: "Please check your email for verification link.",
         });
       }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleResetPassword = async () => {
+    if (!email) {
+      toast({
+        title: "Enter your email",
+        description: "Please enter your email above to receive a reset link.",
+      });
+      return;
+    }
+    setLoading(true);
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/change-password`,
+      });
+      if (error) throw error;
+      toast({
+        title: "Reset link sent",
+        description: "Check your email for a password reset link.",
+      });
     } catch (error: any) {
       toast({
         title: "Error",
@@ -150,6 +182,19 @@ export default function Auth() {
               </Button>
             </div>
           </div>
+
+          {isLogin && (
+            <div className="flex justify-end">
+              <Button
+                type="button"
+                variant="link"
+                className="px-0 text-sm"
+                onClick={handleResetPassword}
+              >
+                Forgot password?
+              </Button>
+            </div>
+          )}
 
           <Button
             type="submit"

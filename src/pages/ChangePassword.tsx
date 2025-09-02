@@ -1,18 +1,64 @@
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Lock, Shield, CheckCircle, AlertCircle } from "lucide-react"
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Lock, Shield, CheckCircle, AlertCircle } from "lucide-react";
 
 export default function ChangePassword() {
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const { toast } = useToast();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    document.title = "Reset Password | AIIMS Preparation";
+  }, []);
+
   const passwordRequirements = [
-    { text: "At least 8 characters long", met: false },
-    { text: "Contains uppercase letter", met: false },
-    { text: "Contains lowercase letter", met: false },
-    { text: "Contains number", met: false },
-    { text: "Contains special character", met: false }
-  ]
+    { text: "At least 8 characters long", met: newPassword.length >= 8 },
+    { text: "Contains uppercase letter", met: /[A-Z]/.test(newPassword) },
+    { text: "Contains lowercase letter", met: /[a-z]/.test(newPassword) },
+    { text: "Contains number", met: /\d/.test(newPassword) },
+    { text: "Contains special character", met: /[^A-Za-z0-9]/.test(newPassword) }
+  ];
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newPassword !== confirmPassword) {
+      toast({
+        title: "Passwords do not match",
+        description: "Please ensure both passwords are identical.",
+        variant: "destructive",
+      });
+      return;
+    }
+    if (newPassword.length < 8) {
+      toast({
+        title: "Weak password",
+        description: "Use at least 8 characters.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const { error } = await supabase.auth.updateUser({ password: newPassword });
+      if (error) throw error;
+      toast({ title: "Password updated", description: "You can now sign in with your new password." });
+      navigate("/");
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -37,34 +83,32 @@ export default function ChangePassword() {
             </div>
           </div>
 
-          <form className="space-y-6">
-            <div>
-              <Label htmlFor="currentPassword">Current Password</Label>
-              <Input 
-                id="currentPassword" 
-                type="password" 
-                placeholder="Enter your current password"
-                className="mt-1"
-              />
-            </div>
-
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <Label htmlFor="newPassword">New Password</Label>
-              <Input 
-                id="newPassword" 
-                type="password" 
+              <Input
+                id="newPassword"
+                type="password"
                 placeholder="Enter your new password"
                 className="mt-1"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                minLength={8}
+                required
               />
             </div>
 
             <div>
               <Label htmlFor="confirmPassword">Confirm New Password</Label>
-              <Input 
-                id="confirmPassword" 
-                type="password" 
+              <Input
+                id="confirmPassword"
+                type="password"
                 placeholder="Confirm your new password"
                 className="mt-1"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                minLength={8}
+                required
               />
             </div>
 
@@ -94,11 +138,11 @@ export default function ChangePassword() {
             </div>
 
             <div className="flex gap-3 pt-4">
-              <Button type="submit" className="flex-1">
+              <Button type="submit" className="flex-1" disabled={submitting}>
                 <Lock className="mr-2 h-4 w-4" />
-                Update Password
+                {submitting ? "Updating..." : "Update Password"}
               </Button>
-              <Button type="button" variant="outline">
+              <Button type="button" variant="outline" onClick={() => navigate("/")}> 
                 Cancel
               </Button>
             </div>
