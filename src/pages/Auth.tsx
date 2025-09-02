@@ -211,16 +211,27 @@ export default function Auth() {
           </Button>
         </form>
 
-        <div className="mt-6 text-center">
+        <div className="mt-6 text-center space-y-2">
           <Button
             variant="link"
             onClick={() => setIsLogin(!isLogin)}
-            className="text-sm"
+            className="text-sm block w-full"
           >
             {isLogin
               ? "Don't have an account? Sign up"
               : "Already have an account? Sign in"}
           </Button>
+          
+          {isLogin && (
+            <Button
+              variant="link"
+              onClick={handleResetPassword}
+              className="text-sm text-muted-foreground block w-full"
+              disabled={loading}
+            >
+              Forgot your password?
+            </Button>
+          )}
         </div>
       </Card>
     </div>

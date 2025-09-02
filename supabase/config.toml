@@ -58,3 +58,12 @@ verify_jwt = true
 
 [functions.search]
 verify_jwt = false
+
+[functions.course-management]
+verify_jwt = false
+
+[functions.test-management]
+verify_jwt = false
+
+[functions.analytics]
+verify_jwt = false
