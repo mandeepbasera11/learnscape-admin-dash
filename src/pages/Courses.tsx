@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client"
 import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/hooks/useAuth"
 import PaymentModal from "@/components/PaymentModal"
+import { getCourseImage } from "@/utils/courseImages"
 
 interface Course {
   id: string;
@@ -178,20 +179,20 @@ export default function Courses() {
           {filteredCourses.map((course) => (
             <Card key={course.id} className="card-soft overflow-hidden group hover:shadow-card transition-all duration-300">
               <div className="relative h-48 bg-gradient-to-br from-primary/10 to-primary/20 overflow-hidden">
-                {course.thumbnail_url ? (
-                  <img 
-                    src={course.thumbnail_url} 
-                    alt={course.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                    }}
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <BookOpen className="h-12 w-12 text-primary/40" />
-                  </div>
-                )}
+                {(() => {
+                  const courseImg = getCourseImage(course.title) || course.thumbnail_url;
+                  return courseImg ? (
+                    <img 
+                      src={courseImg} 
+                      alt={course.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <BookOpen className="h-12 w-12 text-primary/40" />
+                    </div>
+                  );
+                })()}
                 <div className="absolute top-3 right-3">
                   <Badge variant="secondary" className="bg-primary text-primary-foreground">
                     Course
