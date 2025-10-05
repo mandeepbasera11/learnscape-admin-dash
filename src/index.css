@@ -8,31 +8,31 @@
 
 @layer base {
   :root {
-    /* Light theme colors - Creamy base with Light Green accents */
-    --background: 45 30% 96%;
-    --foreground: 25 30% 20%;
+    /* Light theme colors - Modern Blue/Purple theme */
+    --background: 220 30% 98%;
+    --foreground: 220 20% 15%;
 
-    --card: 45 25% 94%;
-    --card-foreground: 25 30% 20%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 20% 15%;
 
-    --popover: 45 25% 94%;
-    --popover-foreground: 25 30% 20%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 15%;
 
-    /* Primary - Forest Green */
-    --primary: 160 80% 25%;
+    /* Primary - Vibrant Blue */
+    --primary: 217 91% 60%;
     --primary-foreground: 0 0% 100%;
-    --primary-hover: 160 80% 30%;
+    --primary-hover: 217 91% 55%;
 
-    /* Secondary - Medium Green */
-    --secondary: 140 60% 45%;
+    /* Secondary - Purple accent */
+    --secondary: 270 70% 65%;
     --secondary-foreground: 0 0% 100%;
 
-    /* Muted - Very Light Green backgrounds */
-    --muted: 120 30% 94%;
-    --muted-foreground: 140 40% 50%;
+    /* Muted - Soft blue-gray backgrounds */
+    --muted: 220 20% 96%;
+    --muted-foreground: 220 15% 50%;
 
-    /* Accent - Emerald accent */
-    --accent: 150 70% 35%;
+    /* Accent - Bright purple */
+    --accent: 260 80% 62%;
     --accent-foreground: 0 0% 100%;
 
     /* Destructive - Red */
@@ -40,24 +40,24 @@
     --destructive-foreground: 0 0% 100%;
 
     /* Borders and inputs */
-    --border: 120 25% 85%;
-    --input: 120 25% 85%;
-    --ring: 160 80% 25%;
+    --border: 220 15% 90%;
+    --input: 220 15% 92%;
+    --ring: 217 91% 60%;
 
     /* Enhanced design tokens */
-    --surface: 120 50% 97%;
-    --surface-hover: 120 30% 95%;
-    --surface-active: 120 35% 92%;
+    --surface: 220 25% 97%;
+    --surface-hover: 220 20% 94%;
+    --surface-active: 220 25% 90%;
     
-    /* Gradients - Green theme */
-    --gradient-primary: linear-gradient(135deg, hsl(160 80% 25%), hsl(140 60% 45%));
-    --gradient-surface: linear-gradient(180deg, hsl(120 50% 97%), hsl(120 30% 95%));
-    --gradient-hero: linear-gradient(135deg, hsl(160 80% 15%), hsl(140 70% 35%), hsl(120 50% 97%));
+    /* Gradients - Blue/Purple theme */
+    --gradient-primary: linear-gradient(135deg, hsl(217 91% 60%), hsl(260 80% 62%));
+    --gradient-surface: linear-gradient(180deg, hsl(220 25% 97%), hsl(220 20% 94%));
+    --gradient-hero: linear-gradient(135deg, hsl(217 91% 50%), hsl(260 80% 62%), hsl(280 70% 75%));
     
-    /* Shadows */
-    --shadow-soft: 0 1px 3px 0 hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
-    --shadow-medium: 0 4px 6px -1px hsl(0 0% 0% / 0.1), 0 2px 4px -2px hsl(0 0% 0% / 0.1);
-    --shadow-card: 0 10px 15px -3px hsl(0 0% 0% / 0.1), 0 4px 6px -4px hsl(0 0% 0% / 0.1);
+    /* Shadows with color tint */
+    --shadow-soft: 0 1px 3px 0 hsl(217 91% 60% / 0.08), 0 1px 2px -1px hsl(217 91% 60% / 0.06);
+    --shadow-medium: 0 4px 6px -1px hsl(217 91% 60% / 0.1), 0 2px 4px -2px hsl(217 91% 60% / 0.08);
+    --shadow-card: 0 10px 15px -3px hsl(217 91% 60% / 0.12), 0 4px 6px -4px hsl(217 91% 60% / 0.1);
     
     /* Animation */
     --transition-smooth: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -65,15 +65,15 @@
 
     --radius: 0.75rem;
 
-    /* Sidebar specific - Green theme */
-    --sidebar-background: 120 40% 96%;
-    --sidebar-foreground: 160 60% 20%;
-    --sidebar-primary: 150 70% 40%;
+    /* Sidebar specific - Blue/Purple theme */
+    --sidebar-background: 220 30% 98%;
+    --sidebar-foreground: 220 20% 20%;
+    --sidebar-primary: 217 91% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 120 25% 93%;
-    --sidebar-accent-foreground: 160 60% 15%;
-    --sidebar-border: 120 20% 88%;
-    --sidebar-ring: 150 70% 40%;
+    --sidebar-accent: 220 20% 95%;
+    --sidebar-accent-foreground: 220 20% 20%;
+    --sidebar-border: 220 15% 92%;
+    --sidebar-ring: 217 91% 60%;
   }
 
   .dark {

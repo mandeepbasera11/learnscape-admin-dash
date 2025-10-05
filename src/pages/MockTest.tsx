@@ -2,7 +2,6 @@ import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Timer, Play, Clock, FileText, Target, TrendingUp } from "lucide-react"
-#MOCK TEST SERIES
 
 export default function MockTest() {
   const mockTests = [
