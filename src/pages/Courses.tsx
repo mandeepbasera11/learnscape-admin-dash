@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Search, Filter, Star, Clock, Users, BookOpen, CreditCard } from "lucide-react"
+import { Search, Filter, Star, Clock, Users, BookOpen, CreditCard, Sparkles, GraduationCap } from "lucide-react"
 import { useState, useEffect } from "react"
 import { supabase } from "@/integrations/supabase/client"
 import { useToast } from "@/hooks/use-toast"
@@ -49,11 +49,9 @@ export default function Courses() {
       if (error) throw error;
       
       setCourses(data || []);
-      
-      
     } catch (error: any) {
       toast({
-        title: "Error",
+        title: "Oops! 😅",
         description: "Failed to load courses",
         variant: "destructive"
       });
@@ -65,7 +63,7 @@ export default function Courses() {
   const handleBuyCourse = (course: Course) => {
     if (!user) {
       toast({
-        title: "Login Required",
+        title: "Login Required 🔐",
         description: "Please login to purchase courses",
         variant: "destructive"
       });
@@ -89,10 +87,10 @@ export default function Courses() {
         ]);
 
       if (error) {
-        if (error.code === '23505') { // Unique constraint violation
+        if (error.code === '23505') {
           toast({
-            title: "Already enrolled",
-            description: "You are already enrolled in this course",
+            title: "Already enrolled! 📚",
+            description: "You're already enrolled in this course",
             variant: "destructive"
           });
         } else {
@@ -100,8 +98,8 @@ export default function Courses() {
         }
       } else {
         toast({
-          title: "Success!",
-          description: "Successfully enrolled in the course",
+          title: "Enrolled Successfully! 🎉",
+          description: "Start learning now!",
         });
       }
     } catch (error: any) {
@@ -118,47 +116,45 @@ export default function Courses() {
     course.instructor_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-
-  const getLevelColor = (level: string) => {
-    switch (level) {
-      case "Beginner":
-        return "bg-green-100 text-green-800"
-      case "Intermediate":
-        return "bg-yellow-100 text-yellow-800"
-      case "Advanced":
-        return "bg-red-100 text-red-800"
-      default:
-        return "bg-gray-100 text-gray-800"
-    }
-  }
-
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between">
+    <div className="space-y-8">
+      {/* Header Section */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         <div>
-          <h1 className="text-3xl font-bold text-foreground mb-2">All Courses</h1>
-          <p className="text-muted-foreground">
-            Discover new courses to expand your knowledge
+          <div className="flex items-center gap-3 mb-2">
+            <h1 className="text-3xl lg:text-4xl font-bold text-foreground">
+              Explore Courses
+            </h1>
+            <span className="text-3xl">🎓</span>
+          </div>
+          <p className="text-lg text-muted-foreground">
+            Discover courses designed to help you crack AIIMS! 🚀
           </p>
+        </div>
+        <div className="flex items-center gap-3 bg-accent/20 px-4 py-2 rounded-2xl">
+          <Sparkles className="h-5 w-5 text-primary" />
+          <span className="font-semibold text-foreground">{courses.length} Courses Available</span>
         </div>
       </div>
 
       {/* Search and Filter */}
-      <div className="flex flex-col sm:flex-row gap-4">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-          <Input 
-            placeholder="Search courses..." 
-            className="pl-10"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+      <Card className="card-soft p-4">
+        <div className="flex flex-col sm:flex-row gap-4">
+          <div className="relative flex-1 group">
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5 group-focus-within:text-primary transition-colors" />
+            <Input 
+              placeholder="Search courses, instructors..." 
+              className="pl-12 h-12 rounded-xl text-base border-2 focus:border-primary transition-all"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          <Button variant="outline" className="h-12 px-6 rounded-xl border-2 font-semibold hover:bg-primary/5 hover:border-primary">
+            <Filter className="mr-2 h-5 w-5" />
+            Filters
+          </Button>
         </div>
-        <Button variant="outline" className="sm:w-auto">
-          <Filter className="mr-2 h-4 w-4" />
-          Filter
-        </Button>
-      </div>
+      </Card>
 
       {/* Courses Grid */}
       {loading ? (
@@ -167,82 +163,102 @@ export default function Courses() {
             <Card key={i} className="card-soft overflow-hidden">
               <div className="h-48 bg-muted animate-pulse" />
               <div className="p-6 space-y-3">
-                <div className="h-4 bg-muted rounded animate-pulse" />
-                <div className="h-4 bg-muted rounded animate-pulse w-3/4" />
-                <div className="h-4 bg-muted rounded animate-pulse w-1/2" />
+                <div className="h-5 bg-muted rounded-lg animate-pulse" />
+                <div className="h-4 bg-muted rounded-lg animate-pulse w-3/4" />
+                <div className="h-4 bg-muted rounded-lg animate-pulse w-1/2" />
               </div>
             </Card>
           ))}
         </div>
+      ) : filteredCourses.length === 0 ? (
+        <Card className="card-soft p-12 text-center">
+          <div className="text-6xl mb-4">🔍</div>
+          <h3 className="text-xl font-bold text-foreground mb-2">No courses found</h3>
+          <p className="text-muted-foreground">Try a different search term or browse all courses</p>
+        </Card>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredCourses.map((course) => (
-            <Card key={course.id} className="card-soft overflow-hidden group hover:shadow-card transition-all duration-300">
-              <div className="relative h-48 bg-gradient-to-br from-primary/10 to-primary/20 overflow-hidden">
+            <Card 
+              key={course.id} 
+              className="card-soft card-bouncy overflow-hidden group"
+            >
+              <div className="relative h-48 bg-gradient-to-br from-primary/20 to-secondary/20 overflow-hidden">
                 {(() => {
                   const courseImg = getCourseImage(course.title) || course.thumbnail_url;
                   return courseImg ? (
                     <img 
                       src={courseImg} 
                       alt={course.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
-                      <BookOpen className="h-12 w-12 text-primary/40" />
+                      <GraduationCap className="h-16 w-16 text-primary/40" />
                     </div>
                   );
                 })()}
-                <div className="absolute top-3 right-3">
-                  <Badge variant="secondary" className="bg-primary text-primary-foreground">
-                    Course
+                {/* Overlay gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                
+                {/* Price Badge */}
+                <div className="absolute top-4 right-4">
+                  <Badge className={`text-base font-bold px-3 py-1.5 rounded-xl ${course.price === 0 ? 'bg-success text-white' : 'gradient-primary text-white'}`}>
+                    {course.price === 0 ? 'FREE 🎁' : `₹${course.price}`}
                   </Badge>
                 </div>
               </div>
               
               <div className="p-6">
-                <div className="flex items-start justify-between mb-3">
-                  <h3 className="font-semibold text-foreground line-clamp-2">{course.title}</h3>
-                  <span className="text-lg font-bold text-primary">₹{course.price}</span>
-                </div>
+                <h3 className="font-bold text-lg text-foreground mb-2 line-clamp-2 group-hover:text-primary transition-colors">
+                  {course.title}
+                </h3>
                 
                 <div className="flex items-center gap-2 mb-3">
-                  <Users className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm text-muted-foreground">{course.instructor_name}</span>
-                </div>
-                
-                 <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
-                   {course.description || 'No description available'}
-                 </p>
-                
-                <div className="flex items-center gap-4 mb-4 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-1">
-                    <Clock className="h-3 w-3" />
-                    {course.duration_weeks} weeks
+                  <div className="w-8 h-8 rounded-full gradient-secondary flex items-center justify-center">
+                    <span className="text-white text-xs font-bold">
+                      {course.instructor_name.charAt(0)}
+                    </span>
                   </div>
-                   <div className="flex items-center gap-1">
-                     <Users className="h-3 w-3" />
-                     {course.total_students?.toLocaleString() || '0'}
-                   </div>
-                   <div className="flex items-center gap-1">
-                     <Star className="h-3 w-3 text-yellow-500 fill-current" />
-                     {course.rating || '0'}
-                   </div>
+                  <span className="text-sm font-medium text-muted-foreground">{course.instructor_name}</span>
                 </div>
                 
-                <div className="space-y-2">
-                  {course.price === 0 ? (
-                    <Button className="w-full" onClick={() => handleEnroll(course.id)}>
-                      <BookOpen className="mr-2 h-4 w-4" />
-                      Enroll Free
-                    </Button>
-                  ) : (
-                    <Button className="w-full" onClick={() => handleBuyCourse(course)}>
-                      <CreditCard className="mr-2 h-4 w-4" />
-                      Buy Course - ₹{course.price}
-                    </Button>
-                  )}
+                <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+                  {course.description || 'Master this subject with comprehensive video lectures and practice tests.'}
+                </p>
+                
+                <div className="flex items-center gap-4 mb-5">
+                  <div className="flex items-center gap-1.5 text-sm">
+                    <Clock className="h-4 w-4 text-primary" />
+                    <span className="font-medium">{course.duration_weeks} weeks</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 text-sm">
+                    <Users className="h-4 w-4 text-secondary" />
+                    <span className="font-medium">{course.total_students?.toLocaleString() || '0'}</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 text-sm">
+                    <Star className="h-4 w-4 text-accent fill-current" />
+                    <span className="font-bold">{course.rating || '4.5'}</span>
+                  </div>
                 </div>
+                
+                {course.price === 0 ? (
+                  <Button 
+                    className="w-full h-12 rounded-xl font-bold bg-success hover:bg-success/90 text-white btn-playful"
+                    onClick={() => handleEnroll(course.id)}
+                  >
+                    <BookOpen className="mr-2 h-5 w-5" />
+                    Enroll Free 🎉
+                  </Button>
+                ) : (
+                  <Button 
+                    className="w-full h-12 rounded-xl font-bold gradient-primary btn-playful"
+                    onClick={() => handleBuyCourse(course)}
+                  >
+                    <CreditCard className="mr-2 h-5 w-5" />
+                    Buy Course
+                  </Button>
+                )}
               </div>
             </Card>
           ))}
