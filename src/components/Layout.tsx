@@ -14,6 +14,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useAuth } from "@/hooks/useAuth"
 import { Link } from "react-router-dom"
+import { ThemeToggle } from "@/components/ThemeToggle"
 
 interface LayoutProps {
   children: React.ReactNode
@@ -64,6 +65,9 @@ export default function Layout({ children }: LayoutProps) {
                   className="pl-11 w-72 h-11 bg-muted/50 border-border/50 rounded-xl focus:bg-background focus:border-primary/50 transition-all"
                 />
               </div>
+
+              {/* Theme Toggle */}
+              <ThemeToggle />
 
               {/* Notifications */}
               <Button variant="ghost" size="icon" className="relative h-11 w-11 rounded-xl hover:bg-primary/10 transition-all">
