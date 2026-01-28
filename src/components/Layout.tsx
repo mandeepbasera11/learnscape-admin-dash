@@ -40,10 +40,10 @@ export default function Layout({ children }: LayoutProps) {
         <AppSidebar />
         
         <div className="flex-1 flex flex-col">
-          {/* Top Navigation - Playful Header */}
-          <header className="h-18 border-b border-border/50 bg-card/80 backdrop-blur-md supports-[backdrop-filter]:bg-card/60 flex items-center justify-between px-6 py-3">
+          {/* Top Navigation - Modern Sleek Header */}
+          <header className="h-18 border-b border-border/30 bg-card/80 backdrop-blur-xl supports-[backdrop-filter]:bg-card/60 flex items-center justify-between px-6 py-3 sticky top-0 z-40">
             <div className="flex items-center gap-4">
-              <SidebarTrigger className="text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-xl p-2 transition-all" />
+              <SidebarTrigger className="text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-xl p-2.5 transition-all duration-300" />
               
               <div className="flex items-center gap-3">
                 <div className="hidden sm:flex items-center gap-2">
@@ -51,7 +51,7 @@ export default function Layout({ children }: LayoutProps) {
                   <span className="text-lg font-bold text-foreground">
                     {user?.user_metadata?.full_name?.split(' ')[0] || 'Student'}
                   </span>
-                  <span className="text-xl">👋</span>
+                  <span className="text-xl animate-wiggle inline-block">👋</span>
                 </div>
               </div>
             </div>
@@ -59,10 +59,10 @@ export default function Layout({ children }: LayoutProps) {
             <div className="flex items-center gap-3">
               {/* Search */}
               <div className="hidden md:flex relative group">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4 group-focus-within:text-primary transition-colors" />
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4 group-focus-within:text-primary transition-colors duration-300" />
                 <Input 
                   placeholder="Search courses, tests..." 
-                  className="pl-11 w-72 h-11 bg-muted/50 border-border/50 rounded-xl focus:bg-background focus:border-primary/50 transition-all"
+                  className="pl-11 w-72 bg-muted/30 border-border/30 focus:bg-background"
                 />
               </div>
 
@@ -70,9 +70,9 @@ export default function Layout({ children }: LayoutProps) {
               <ThemeToggle />
 
               {/* Notifications */}
-              <Button variant="ghost" size="icon" className="relative h-11 w-11 rounded-xl hover:bg-primary/10 transition-all">
+              <Button variant="ghost" size="icon" className="relative h-11 w-11 rounded-xl icon-btn">
                 <Bell className="h-5 w-5" />
-                <span className="absolute -top-1 -right-1 h-5 w-5 bg-primary text-primary-foreground rounded-full text-xs flex items-center justify-center font-bold animate-pulse">
+                <span className="absolute -top-1 -right-1 h-5 w-5 bg-primary text-primary-foreground rounded-full text-xs flex items-center justify-center font-bold shadow-lg">
                   3
                 </span>
               </Button>
@@ -80,20 +80,20 @@ export default function Layout({ children }: LayoutProps) {
               {/* Profile Dropdown */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="relative h-11 w-11 rounded-xl p-0 hover:ring-2 hover:ring-primary/20 transition-all">
+                  <Button variant="ghost" className="relative h-11 w-11 rounded-xl p-0 hover:ring-2 hover:ring-primary/20 transition-all duration-300">
                     <Avatar className="h-10 w-10 ring-2 ring-primary/20">
                       <AvatarImage src={user?.user_metadata?.avatar_url} alt={user?.user_metadata?.full_name || 'User'} />
-                      <AvatarFallback className="gradient-primary text-white font-bold">
+                      <AvatarFallback className="bg-gradient-to-br from-primary to-secondary text-white font-bold">
                         {user?.user_metadata?.full_name?.charAt(0) || user?.email?.charAt(0).toUpperCase() || 'U'}
                       </AvatarFallback>
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-60 rounded-xl p-2" align="end" forceMount>
-                  <DropdownMenuLabel className="font-normal p-3 bg-muted/50 rounded-lg mb-2">
+                <DropdownMenuContent className="w-64 rounded-2xl p-2 shadow-elevated bg-popover border border-border/50 z-50" align="end" forceMount>
+                  <DropdownMenuLabel className="font-normal p-4 glass-card-subtle rounded-xl mb-2">
                     <div className="flex items-center gap-3">
-                      <Avatar className="h-12 w-12">
-                        <AvatarFallback className="gradient-primary text-white font-bold">
+                      <Avatar className="h-12 w-12 ring-2 ring-primary/20">
+                        <AvatarFallback className="bg-gradient-to-br from-primary to-secondary text-white font-bold">
                           {user?.user_metadata?.full_name?.charAt(0) || 'U'}
                         </AvatarFallback>
                       </Avatar>
@@ -107,21 +107,21 @@ export default function Layout({ children }: LayoutProps) {
                       </div>
                     </div>
                   </DropdownMenuLabel>
-                  <DropdownMenuItem className="rounded-lg py-3 cursor-pointer" asChild>
+                  <DropdownMenuItem className="rounded-xl py-3 cursor-pointer transition-all duration-200 hover:bg-primary/10" asChild>
                     <Link to="/profile">
                       <Sparkles className="mr-3 h-4 w-4 text-primary" />
                       <span className="font-medium">My Profile</span>
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="rounded-lg py-3 cursor-pointer" asChild>
+                  <DropdownMenuItem className="rounded-xl py-3 cursor-pointer transition-all duration-200 hover:bg-primary/10" asChild>
                     <Link to="/orders">
                       <span className="mr-3">🛒</span>
                       <span className="font-medium">My Orders</span>
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuSeparator className="my-2" />
+                  <DropdownMenuSeparator className="my-2 bg-border/50" />
                   <DropdownMenuItem 
-                    className="rounded-lg py-3 cursor-pointer text-destructive hover:text-destructive focus:text-destructive" 
+                    className="rounded-xl py-3 cursor-pointer text-destructive hover:text-destructive focus:text-destructive hover:bg-destructive/10 transition-all duration-200" 
                     onClick={handleSignOut}
                   >
                     <span className="mr-3">👋</span>
@@ -134,7 +134,7 @@ export default function Layout({ children }: LayoutProps) {
 
           {/* Main Content */}
           <main className="flex-1 p-6 bg-background overflow-auto">
-            <div className="animate-slide-up">
+            <div className="page-transition">
               {children}
             </div>
           </main>

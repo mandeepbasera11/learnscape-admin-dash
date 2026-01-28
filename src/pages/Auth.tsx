@@ -115,61 +115,76 @@ export default function Auth() {
   ];
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex bg-gradient-to-br from-background via-background to-primary/5">
       {/* Left Side - Decorative */}
-      <div className="hidden lg:flex lg:w-1/2 gradient-primary relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.1%22%3E%3Cpath%20d%3D%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E')] opacity-30" />
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
+        {/* Animated gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary via-secondary to-accent opacity-90" />
+        
+        {/* Floating orbs */}
+        <div className="absolute top-20 left-20 w-72 h-72 bg-white/20 rounded-full blur-3xl animate-float" />
+        <div className="absolute bottom-32 right-16 w-56 h-56 bg-accent/30 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/2 left-1/3 w-40 h-40 bg-secondary/30 rounded-full blur-2xl animate-float" style={{ animationDelay: '2s' }} />
+        
+        {/* Grid pattern overlay */}
+        <div className="absolute inset-0 opacity-10" style={{
+          backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
+          backgroundSize: '40px 40px'
+        }} />
         
         <div className="relative z-10 flex flex-col justify-center px-12 text-white">
-          <div className="animate-float mb-8">
-            <div className="w-20 h-20 rounded-3xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
+          {/* Logo */}
+          <div className="mb-10">
+            <div className="w-20 h-20 rounded-3xl glass-card-subtle flex items-center justify-center animate-bounce-in">
               <GraduationCap className="h-10 w-10" />
             </div>
           </div>
           
-          <h1 className="text-5xl font-bold mb-4 leading-tight">
-            Your AIIMS Dream<br />
-            <span className="text-accent">Starts Here!</span>
+          <h1 className="text-5xl font-extrabold mb-6 leading-tight animate-fade-in">
+            Your AIIMS Dream
+            <br />
+            <span className="text-accent drop-shadow-lg">Starts Here!</span>
           </h1>
           
-          <p className="text-xl text-white/90 mb-8 max-w-md">
+          <p className="text-xl text-white/90 mb-10 max-w-md animate-fade-in" style={{ animationDelay: '0.1s' }}>
             Join thousands of successful medical aspirants who cracked AIIMS with our comprehensive preparation platform.
           </p>
           
-          <div className="space-y-4">
+          {/* Feature cards */}
+          <div className="space-y-4 stagger-animation">
             {features.map((feature, index) => (
               <div 
                 key={index}
-                className="flex items-center gap-4 bg-white/10 backdrop-blur-sm rounded-2xl px-5 py-4 animate-slide-up"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                className="flex items-center gap-4 glass-card-subtle rounded-2xl px-6 py-4 backdrop-blur-xl hover:bg-white/20 transition-all duration-300 hover:translate-x-2 cursor-default"
               >
                 <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
                   <feature.icon className="h-6 w-6" />
                 </div>
-                <span className="text-lg font-medium">{feature.text}</span>
+                <span className="text-lg font-semibold">{feature.text}</span>
               </div>
             ))}
           </div>
-          
-          {/* Decorative elements */}
-          <div className="absolute top-20 right-20 w-32 h-32 bg-accent/30 rounded-full blur-3xl" />
-          <div className="absolute bottom-32 right-32 w-24 h-24 bg-white/20 rounded-full blur-2xl" />
         </div>
       </div>
 
       {/* Right Side - Form */}
-      <div className="flex-1 flex items-center justify-center p-6 bg-background">
-        <Card className="w-full max-w-md p-8 card-soft animate-bounce-in">
+      <div className="flex-1 flex items-center justify-center p-6 relative">
+        {/* Subtle background decoration */}
+        <div className="absolute top-10 right-10 w-32 h-32 bg-primary/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 left-10 w-40 h-40 bg-accent/10 rounded-full blur-3xl" />
+        
+        <Card variant="elevated" className="w-full max-w-md p-8 animate-scale-in relative z-10">
+          {/* Header */}
           <div className="text-center mb-8">
-            <div className="flex items-center justify-center mb-4">
-              <div className="p-4 rounded-2xl gradient-primary animate-pulse-glow">
+            <div className="flex items-center justify-center mb-5">
+              <div className="p-4 rounded-2xl gradient-primary shadow-lg animate-pulse-glow">
                 <Sparkles className="h-8 w-8 text-white" />
               </div>
             </div>
-            <h1 className="text-3xl font-bold text-foreground mb-2">
+            <h1 className="text-3xl font-extrabold text-foreground mb-2">
               {isLogin ? "Welcome Back! 👋" : "Join the Journey! 🚀"}
             </h1>
-            <p className="text-muted-foreground text-lg">
+            <p className="text-muted-foreground text-base">
               {isLogin ? "We missed you! Let's continue learning" : "Start your medical success story"}
             </p>
           </div>
@@ -178,44 +193,42 @@ export default function Auth() {
             {!isLogin && (
               <div className="animate-slide-up">
                 <label className="text-sm font-semibold text-foreground mb-2 block">
-                  Full Name 📝
+                  Full Name
                 </label>
                 <Input
                   type="text"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   placeholder="Enter your full name"
-                  className="h-12 rounded-xl text-base border-2 focus:border-primary transition-all"
                   required
                 />
               </div>
             )}
 
-            <div>
+            <div className="animate-fade-in" style={{ animationDelay: '0.05s' }}>
               <label className="text-sm font-semibold text-foreground mb-2 block">
-                Email Address 📧
+                Email Address
               </label>
               <Input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your.email@example.com"
-                className="h-12 rounded-xl text-base border-2 focus:border-primary transition-all"
                 required
               />
             </div>
 
-            <div>
+            <div className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
               <label className="text-sm font-semibold text-foreground mb-2 block">
-                Password 🔐
+                Password
               </label>
-              <div className="relative">
+              <div className="relative group">
                 <Input
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your password"
-                  className="h-12 rounded-xl text-base border-2 focus:border-primary transition-all pr-12"
+                  className="pr-12"
                   required
                   minLength={6}
                 />
@@ -223,13 +236,13 @@ export default function Auth() {
                   type="button"
                   variant="ghost"
                   size="icon"
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 h-9 w-9 rounded-lg hover:bg-primary/10"
+                  className="absolute right-1 top-1/2 transform -translate-y-1/2 h-9 w-9 opacity-60 hover:opacity-100"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
-                    <EyeOff className="h-5 w-5 text-muted-foreground" />
+                    <EyeOff className="h-5 w-5" />
                   ) : (
-                    <Eye className="h-5 w-5 text-muted-foreground" />
+                    <Eye className="h-5 w-5" />
                   )}
                 </Button>
               </div>
@@ -240,17 +253,19 @@ export default function Auth() {
                 <Button
                   type="button"
                   variant="link"
-                  className="px-0 text-sm text-primary font-semibold"
+                  className="px-0 text-sm font-semibold link-underline"
                   onClick={handleResetPassword}
                 >
-                  Forgot password? 🤔
+                  Forgot password?
                 </Button>
               </div>
             )}
 
             <Button
               type="submit"
-              className="w-full h-12 text-base font-bold rounded-xl gradient-primary btn-playful shadow-lg"
+              variant="gradient"
+              size="lg"
+              className="w-full font-bold"
               disabled={loading}
             >
               {loading ? (
@@ -266,14 +281,25 @@ export default function Auth() {
             </Button>
           </form>
 
-          <div className="mt-8 text-center">
-            <p className="text-muted-foreground mb-2">
+          {/* Divider */}
+          <div className="relative my-8">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-border/50"></div>
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-card px-3 text-muted-foreground font-medium">or</span>
+            </div>
+          </div>
+
+          {/* Switch auth mode */}
+          <div className="text-center">
+            <p className="text-muted-foreground text-sm mb-3">
               {isLogin ? "New to our platform?" : "Already have an account?"}
             </p>
             <Button
               variant="outline"
               onClick={() => setIsLogin(!isLogin)}
-              className="font-semibold rounded-xl border-2 hover:bg-primary/5 hover:border-primary transition-all"
+              className="font-semibold w-full"
             >
               {isLogin ? "Create an Account 🌟" : "Sign In Instead 👋"}
             </Button>

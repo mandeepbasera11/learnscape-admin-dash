@@ -108,27 +108,27 @@ export function AppSidebar() {
 
   return (
     <Sidebar
-      className="border-r border-sidebar-border/50 bg-sidebar"
+      className="border-r border-sidebar-border/30 bg-sidebar/95 backdrop-blur-xl"
       collapsible="icon"
     >
       <SidebarContent className="px-3 py-4">
         {/* Logo Section */}
         <div className="mb-6">
           {!isCollapsed ? (
-            <div className="px-3 py-4 rounded-2xl bg-primary/5 border border-primary/10">
+            <div className="px-4 py-4 rounded-2xl glass-card-subtle">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center shadow-md">
+                <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-lg animate-pulse-glow">
                   <Sparkles className="h-5 w-5 text-white" />
                 </div>
                 <div>
-                  <h2 className="text-lg font-bold text-foreground">MedPrep</h2>
-                  <p className="text-xs text-muted-foreground">AIIMS Success Hub 🚀</p>
+                  <h2 className="text-lg font-extrabold text-foreground">MedPrep</h2>
+                  <p className="text-xs text-muted-foreground font-medium">AIIMS Success Hub 🚀</p>
                 </div>
               </div>
             </div>
           ) : (
             <div className="flex justify-center">
-              <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center shadow-md">
+              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-lg">
                 <Sparkles className="h-5 w-5 text-white" />
               </div>
             </div>
@@ -136,7 +136,7 @@ export function AppSidebar() {
         </div>
 
         {/* Navigation Items */}
-        <div className="space-y-1">
+        <div className="space-y-1.5">
           {menuItems.map((item) => (
             <div key={item.title}>
               {item.type === "single" ? (
@@ -146,7 +146,7 @@ export function AppSidebar() {
                       <NavLink 
                         to={item.url!} 
                         end 
-                        className={({ isActive }) => `${getNavCls({ isActive })} px-3 py-3 flex items-center gap-3 transition-all duration-200`}
+                        className={({ isActive }) => `${getNavCls({ isActive })} px-3.5 py-3 flex items-center gap-3 transition-all duration-300`}
                       >
                         {!isCollapsed && <span className="text-lg">{item.emoji}</span>}
                         <item.icon className={`h-5 w-5 shrink-0 ${isCollapsed ? '' : 'hidden'}`} />
@@ -165,18 +165,18 @@ export function AppSidebar() {
                     onOpenChange={() => toggleGroup(item.title)}
                   >
                     <CollapsibleTrigger asChild>
-                      <SidebarGroupLabel className="group cursor-pointer flex items-center justify-between px-3 py-3 text-sm font-semibold text-sidebar-foreground hover:bg-primary/10 rounded-xl transition-all duration-200">
+                      <SidebarGroupLabel className="group cursor-pointer flex items-center justify-between px-3.5 py-3 text-sm font-semibold text-sidebar-foreground hover:bg-primary/10 rounded-xl transition-all duration-300">
                         {!isCollapsed && (
                           <>
                             <span className="flex items-center gap-3">
                               <span className="text-lg">{item.emoji}</span>
                               <span>{item.title}</span>
                             </span>
-                            <div className="p-1 rounded-lg bg-muted/50">
+                            <div className="p-1.5 rounded-lg bg-muted/50">
                               {openGroups.includes(item.title) ? (
-                                <ChevronDown className="h-4 w-4" />
+                                <ChevronDown className="h-4 w-4 transition-transform duration-300" />
                               ) : (
-                                <ChevronRight className="h-4 w-4" />
+                                <ChevronRight className="h-4 w-4 transition-transform duration-300" />
                               )}
                             </div>
                           </>
@@ -184,16 +184,16 @@ export function AppSidebar() {
                       </SidebarGroupLabel>
                     </CollapsibleTrigger>
                     
-                    <CollapsibleContent>
+                    <CollapsibleContent className="animate-accordion-down">
                       <SidebarGroupContent>
-                        <SidebarMenu className="space-y-1 mt-1">
+                        <SidebarMenu className="space-y-1 mt-1.5">
                           {item.items?.map((subItem) => (
                             <SidebarMenuItem key={subItem.title}>
                               <SidebarMenuButton asChild>
                                 <NavLink 
                                   to={subItem.url} 
                                   end 
-                                  className={({ isActive }) => `${getNavCls({ isActive })} px-3 py-2.5 ml-6 flex items-center gap-3 transition-all duration-200 text-sm`}
+                                  className={({ isActive }) => `${getNavCls({ isActive })} px-3.5 py-2.5 ml-6 flex items-center gap-3 transition-all duration-300 text-sm`}
                                 >
                                   <span className="text-base">{subItem.emoji}</span>
                                   {!isCollapsed && <span className="font-medium">{subItem.title}</span>}
@@ -211,11 +211,11 @@ export function AppSidebar() {
           ))}
         </div>
 
-        {/* Fun Footer Message */}
+        {/* Motivational Footer */}
         {!isCollapsed && (
           <div className="mt-auto pt-6">
-            <div className="px-3 py-4 rounded-2xl bg-accent/20 border border-accent/30 text-center">
-              <p className="text-sm font-semibold text-foreground mb-1">Keep Going! 💪</p>
+            <div className="px-4 py-4 rounded-2xl bg-gradient-to-br from-accent/20 to-primary/10 border border-accent/20 text-center backdrop-blur-sm">
+              <p className="text-sm font-bold text-foreground mb-1">Keep Going! 💪</p>
               <p className="text-xs text-muted-foreground">Every hour of study brings you closer to your dream!</p>
             </div>
           </div>

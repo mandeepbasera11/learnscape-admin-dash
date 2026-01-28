@@ -117,12 +117,12 @@ export default function Courses() {
   );
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 page-transition">
       {/* Header Section */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-        <div>
+        <div className="animate-fade-in">
           <div className="flex items-center gap-3 mb-2">
-            <h1 className="text-3xl lg:text-4xl font-bold text-foreground">
+            <h1 className="text-3xl lg:text-4xl font-extrabold text-foreground">
               Explore Courses
             </h1>
             <span className="text-3xl">🎓</span>
@@ -131,25 +131,25 @@ export default function Courses() {
             Discover courses designed to help you crack AIIMS! 🚀
           </p>
         </div>
-        <div className="flex items-center gap-3 bg-accent/20 px-4 py-2 rounded-2xl">
+        <div className="flex items-center gap-3 glass-card px-5 py-3 rounded-2xl animate-fade-in" style={{ animationDelay: '0.1s' }}>
           <Sparkles className="h-5 w-5 text-primary" />
-          <span className="font-semibold text-foreground">{courses.length} Courses Available</span>
+          <span className="font-bold text-foreground">{courses.length} Courses Available</span>
         </div>
       </div>
 
       {/* Search and Filter */}
-      <Card className="card-soft p-4">
+      <Card variant="glass" className="p-5 animate-fade-in" style={{ animationDelay: '0.15s' }}>
         <div className="flex flex-col sm:flex-row gap-4">
           <div className="relative flex-1 group">
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5 group-focus-within:text-primary transition-colors" />
             <Input 
               placeholder="Search courses, instructors..." 
-              className="pl-12 h-12 rounded-xl text-base border-2 focus:border-primary transition-all"
+              className="pl-12"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <Button variant="outline" className="h-12 px-6 rounded-xl border-2 font-semibold hover:bg-primary/5 hover:border-primary">
+          <Button variant="outline" size="lg" className="font-semibold">
             <Filter className="mr-2 h-5 w-5" />
             Filters
           </Button>
@@ -160,28 +160,29 @@ export default function Courses() {
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[...Array(6)].map((_, i) => (
-            <Card key={i} className="card-soft overflow-hidden">
-              <div className="h-48 bg-muted animate-pulse" />
+            <Card key={i} className="overflow-hidden">
+              <div className="h-48 shimmer" />
               <div className="p-6 space-y-3">
-                <div className="h-5 bg-muted rounded-lg animate-pulse" />
-                <div className="h-4 bg-muted rounded-lg animate-pulse w-3/4" />
-                <div className="h-4 bg-muted rounded-lg animate-pulse w-1/2" />
+                <div className="h-5 shimmer rounded-lg" />
+                <div className="h-4 shimmer rounded-lg w-3/4" />
+                <div className="h-4 shimmer rounded-lg w-1/2" />
               </div>
             </Card>
           ))}
         </div>
       ) : filteredCourses.length === 0 ? (
-        <Card className="card-soft p-12 text-center">
+        <Card variant="elevated" className="p-12 text-center animate-scale-in">
           <div className="text-6xl mb-4">🔍</div>
           <h3 className="text-xl font-bold text-foreground mb-2">No courses found</h3>
           <p className="text-muted-foreground">Try a different search term or browse all courses</p>
         </Card>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 stagger-animation">
           {filteredCourses.map((course) => (
             <Card 
               key={course.id} 
-              className="card-soft card-bouncy overflow-hidden group"
+              variant="interactive"
+              className="overflow-hidden group"
             >
               <div className="relative h-48 bg-gradient-to-br from-primary/20 to-secondary/20 overflow-hidden">
                 {(() => {
@@ -190,33 +191,33 @@ export default function Courses() {
                     <img 
                       src={courseImg} 
                       alt={course.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center">
+                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/10 to-secondary/10">
                       <GraduationCap className="h-16 w-16 text-primary/40" />
                     </div>
                   );
                 })()}
                 {/* Overlay gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 
                 {/* Price Badge */}
                 <div className="absolute top-4 right-4">
-                  <Badge className={`text-base font-bold px-3 py-1.5 rounded-xl ${course.price === 0 ? 'bg-success text-white' : 'gradient-primary text-white'}`}>
+                  <Badge className={`text-base font-bold px-4 py-2 rounded-xl shadow-lg backdrop-blur-sm ${course.price === 0 ? 'bg-success/90 text-white' : 'bg-primary/90 text-white'}`}>
                     {course.price === 0 ? 'FREE 🎁' : `₹${course.price}`}
                   </Badge>
                 </div>
               </div>
               
               <div className="p-6">
-                <h3 className="font-bold text-lg text-foreground mb-2 line-clamp-2 group-hover:text-primary transition-colors">
+                <h3 className="font-bold text-lg text-foreground mb-2 line-clamp-2 group-hover:text-primary transition-colors duration-300">
                   {course.title}
                 </h3>
                 
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="w-8 h-8 rounded-full gradient-secondary flex items-center justify-center">
-                    <span className="text-white text-xs font-bold">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-secondary to-primary flex items-center justify-center shadow-md">
+                    <span className="text-white text-sm font-bold">
                       {course.instructor_name.charAt(0)}
                     </span>
                   </div>
@@ -227,16 +228,16 @@ export default function Courses() {
                   {course.description || 'Master this subject with comprehensive video lectures and practice tests.'}
                 </p>
                 
-                <div className="flex items-center gap-4 mb-5">
-                  <div className="flex items-center gap-1.5 text-sm">
+                <div className="flex items-center gap-4 mb-5 text-sm">
+                  <div className="flex items-center gap-1.5">
                     <Clock className="h-4 w-4 text-primary" />
                     <span className="font-medium">{course.duration_weeks} weeks</span>
                   </div>
-                  <div className="flex items-center gap-1.5 text-sm">
+                  <div className="flex items-center gap-1.5">
                     <Users className="h-4 w-4 text-secondary" />
                     <span className="font-medium">{course.total_students?.toLocaleString() || '0'}</span>
                   </div>
-                  <div className="flex items-center gap-1.5 text-sm">
+                  <div className="flex items-center gap-1.5">
                     <Star className="h-4 w-4 text-accent fill-current" />
                     <span className="font-bold">{course.rating || '4.5'}</span>
                   </div>
@@ -244,7 +245,9 @@ export default function Courses() {
                 
                 {course.price === 0 ? (
                   <Button 
-                    className="w-full h-12 rounded-xl font-bold bg-success hover:bg-success/90 text-white btn-playful"
+                    variant="gradient"
+                    size="lg"
+                    className="w-full font-bold bg-gradient-to-r from-success to-emerald-400"
                     onClick={() => handleEnroll(course.id)}
                   >
                     <BookOpen className="mr-2 h-5 w-5" />
@@ -252,7 +255,9 @@ export default function Courses() {
                   </Button>
                 ) : (
                   <Button 
-                    className="w-full h-12 rounded-xl font-bold gradient-primary btn-playful"
+                    variant="gradient"
+                    size="lg"
+                    className="w-full font-bold"
                     onClick={() => handleBuyCourse(course)}
                   >
                     <CreditCard className="mr-2 h-5 w-5" />
