@@ -2,6 +2,7 @@ import { Card } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { ParallaxBackground, FloatingElement } from "@/components/ParallaxSection"
 import { 
   BookOpen, 
   Timer, 
@@ -16,7 +17,8 @@ import {
   Target,
   Flame
 } from "lucide-react"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
+import { useParallax } from "@/hooks/useParallax"
 import { supabase } from "@/integrations/supabase/client"
 import { useAuth } from "@/hooks/useAuth"
 import { Link } from "react-router-dom"
@@ -220,11 +222,22 @@ export default function Dashboard() {
         ))}
       </div>
 
-      {/* Motivational Banner */}
+      {/* Motivational Banner with Parallax */}
       <Card className="relative overflow-hidden animate-fade-in" style={{ animationDelay: '0.2s' }}>
-        <div className="absolute inset-0 bg-gradient-to-r from-primary via-secondary to-accent opacity-95" />
-        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
+        <ParallaxBackground speed={0.1}>
+          <div className="absolute inset-0 bg-gradient-to-r from-primary via-secondary to-accent opacity-95" />
+        </ParallaxBackground>
+        
+        {/* Floating decorative elements */}
+        <FloatingElement className="absolute top-0 right-0" speed={0.8}>
+          <div className="w-96 h-96 bg-white/10 rounded-full blur-3xl" />
+        </FloatingElement>
+        <FloatingElement className="absolute bottom-0 left-0" speed={0.5} delay={0.1}>
+          <div className="w-64 h-64 bg-white/10 rounded-full blur-3xl" />
+        </FloatingElement>
+        <FloatingElement className="absolute top-1/2 left-1/3" speed={1.2} delay={0.05}>
+          <div className="w-32 h-32 bg-white/5 rounded-full blur-2xl" />
+        </FloatingElement>
         
         <div className="relative p-8 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-5">
