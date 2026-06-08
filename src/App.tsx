@@ -1,59 +1,80 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "./hooks/useAuth";
-import Layout from "./components/Layout";
-import Dashboard from "./pages/Dashboard";
-import MyCourses from "./pages/MyCourses";
-import Courses from "./pages/Courses";
-import TestSeries from "./pages/TestSeries";
-import MockTest from "./pages/MockTest";
-import LiveTest from "./pages/LiveTest";
-import Profile from "./pages/Profile";
-import ChangePassword from "./pages/ChangePassword";
-import Orders from "./pages/Orders";
-import PaymentSuccess from "./pages/PaymentSuccess";
-import Auth from "./pages/Auth";
-import NotFound from "./pages/NotFound";
-import ProtectedRoute from "./components/ProtectedRoute";
+import React, { useState } from "react";
+import { AppLayout } from "@/components/layout/AppLayout";
+import { PAGE_MAP, PageRole } from "@/lib/pageMap";
+import { PlaceholderPage } from "@/components/ui/PlaceholderPage";
 
-const queryClient = new QueryClient();
+// ── Import real pages as you build them ──────────────────────────────────────
+import { StudentDashboard } from "@/pages/student/StudentDashboard";
+import { AdminDashboard } from "@/pages/admin/AdminDashboard";
+// import FacultyDashboard from "@/pages/faculty/FacultyDashboard";
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/*" element={
-              <ProtectedRoute>
-                <Layout>
-                  <Routes>
-                    <Route path="/" element={<Dashboard />} />
-                    <Route path="/my-courses" element={<MyCourses />} />
-                    <Route path="/courses" element={<Courses />} />
-                    <Route path="/test-series" element={<TestSeries />} />
-                    <Route path="/mock-test" element={<MockTest />} />
-                    <Route path="/live-test" element={<LiveTest />} />
-                    <Route path="/profile" element={<Profile />} />
-                    <Route path="/change-password" element={<ChangePassword />} />
-                    <Route path="/orders" element={<Orders />} />
-                    <Route path="/payment-success" element={<PaymentSuccess />} />
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                </Layout>
-              </ProtectedRoute>
-            } />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </AuthProvider>
-  </QueryClientProvider>
-);
+// ── Page registry: replace PlaceholderPage with your real component ──────────
+const PAGE_COMPONENTS: Record<string, React.ComponentType<any>> = {
+  "student-dashboard": StudentDashboard,
+  "admin-dashboard": AdminDashboard,
+  // Add real components here as they're built
+};
+
+// ── Role detection from current page key ────────────────────────────────────
+function getRoleFromKey(key: string): PageRole {
+  if (key.startsWith("faculty-")) return "faculty";
+  if (key.startsWith("admin-")) return "admin";
+  return "student";
+}
+
+// ── Default landing pages per role ──────────────────────────────────────────
+const ROLE_HOME: Record<PageRole, string> = {
+  student: "student-dashboard",
+  faculty: "faculty-dashboard",
+  admin: "admin-dashboard",
+};
+
+function App() {
+  const [activePage, setActivePage] = useState<string>("student-dashboard");
+
+  const handleNavigate = (key: string) => {
+    if (PAGE_MAP[key]) {
+      setActivePage(key);
+    }
+  };
+
+  // Resolve current page meta
+  const meta = PAGE_MAP[activePage];
+  if (!meta) {
+    // Fallback
+    return (
+      <div className="flex items-center justify-center h-screen text-slate-500">
+        Page not found: {activePage}
+      </div>
+    );
+  }
+
+  const role = meta.role;
+
+  // Resolve component
+  const PageComponent = PAGE_COMPONENTS[activePage];
+
+  return (
+    <AppLayout
+      role={role}
+      activePage={activePage}
+      pageTitle={meta.title}
+      pageSubtitle={meta.subtitle}
+      onNavigate={handleNavigate}
+      userName="Mandeep Singh"
+      onLogout={() => alert("Logged out")}
+    >
+      {PageComponent ? (
+        <PageComponent />
+      ) : (
+        <PlaceholderPage
+          pageKey={activePage}
+          title={meta.title}
+          subtitle={meta.subtitle}
+        />
+      )}
+    </AppLayout>
+  );
+}
 
 export default App;
