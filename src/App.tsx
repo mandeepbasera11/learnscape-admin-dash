@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AppLayout } from "@/components/layout/AppLayout";
+import { AppLayout } from "@/components/Layout/AppLayout";
 import { PAGE_MAP, PageRole } from "@/lib/pageMap";
 import { PlaceholderPage } from "@/components/ui/PlaceholderPage";
 
