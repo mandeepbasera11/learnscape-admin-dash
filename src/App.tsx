@@ -61,7 +61,7 @@ function App() {
       pageTitle={meta.title}
       pageSubtitle={meta.subtitle}
       onNavigate={handleNavigate}
-      userName="Mandeep Singh"
+      userName="Mandeep Basera"
       onLogout={() => alert("Logged out")}
     >
       {PageComponent ? (
